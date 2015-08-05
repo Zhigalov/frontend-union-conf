@@ -1,0 +1,617 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+    <title>Generators</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1274, user-scalable=no">
+    <link rel="stylesheet" href="styles/screen.css">
+    <link rel="stylesheet" href="styles/print.css" media="print">
+    <link rel="stylesheet" href="styles/idea.min.css">
+    <link rel="shortcut icon" href="favicon.ico">
+</head>
+<body class="list">
+<header class="caption">
+    <h1>Generators</h1>
+    <p>Жигалов Сергей</p>
+</header>
+<section class="slide first">
+    <div class="arrow">
+        <img src="images/yandex_lang_ru.svg" class="yandex"/>
+        <h2>Generators</h2>
+        <div class="info">
+            <p class="author"><span class="first-red">С</span>ергей Жигалов</p>
+            <p class="location">Frontend Union Conf, 2015г</p>
+        </div>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>Список неоплаченных штрафов</h2>
+    <ol>
+        <li>Ввести номер автомобиля</li>
+        <li>Получить по номеру автомобиля список штрафов</li>
+        <li>Получить по каждому штрафу статус оплаты</li>
+        <li>Вывести неоплаченные штрафы</li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h2 style="position: absolute; top: 0;">Callback</h2>
+    <pre class="javascript" style="margin-top: 10px">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = fines.length;</code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { cb(err); }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide cover w" style="text-align: center;">
+    <img class="myGif" src="images/catIsSad.gif" alt="catIsSad" />
+</section>
+
+<section class="slide">
+    <h2 style="position: absolute; top: 0;">Callback</h2>
+    <pre class="javascript" style="margin-top: 10px">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = fines.length;</code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { cb(err); }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2 style="position: absolute; top: 0;">Callback</h2>
+    <pre class="javascript" style="margin-top: 10px">
+        <code>function getUnpaidFines(<mark>Ввести номер автомобиля</mark>, cb) {</code>
+        <code>    <mark>Получить список штрафов</mark>(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = fines.length;</code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            <mark>Получить статус оплаты</mark>(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { cb(err); }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = <mark>Вывести неоплаченные штрафы</mark></code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Callback</h2>
+    <ul class="custom-list">
+        <li class="done">Минимум накладных расходов</li>
+        <li class="fail">Много шума</li>
+        <li class="fail">Глубокий уровень вложенности</li>
+        <li class="fail">Обработка ошибок
+            <ul class="custom-list">
+                <li class="fail">cb(err, data)</li>
+                <li class="fail">if (err) { cb(err); }</li>
+                <li class="fail"><strike>try { ... } catch(e) { ... }</strike></li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2><small>Promises.</small> Bluebird</h2>
+    <pre class="javascript">
+        <code>function myFunction(arg1, arg2, cb) {</code>
+        <code>    cb(err, data);</code>
+        <code>}</code>
+        <code>var myPromisifyFunction = Promise.promisify(myFunction);</code>
+        <code> </code>
+        <code>myPromise()</code>
+        <code>    .then(function onResolve() { return data; })</code>
+        <code>    .then(function onResolve(data) { ... })</code>
+        <code>    .catch(function onReject() { ... })</code>
+        <code> </code>
+    </pre>
+    <img src="images/bluebird.png" alt="bluebird" style="position: absolute; right: 40px; top: 26px;"/>
+    <div style="margin-top: 35px;">
+        <a href="https://github.com/petkaantonov/bluebird">https://github.com/petkaantonov/bluebird</a><br/>
+        <a href="https://vimeo.com/74925301">Михаил Давыдов "Promise – это не больно"</a>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>Promises</h2>
+    <pre class="javascript">
+        <code>function getUnpaidFines(carNumber) {</code>
+        <code>    return getFinesByCarNumber(carNumber)</code>
+        <code>        .then(function (fines) {</code>
+        <code>            return Promise.props({</code>
+        <code>                fines: fines,</code>
+        <code>                isUnpaidFines: Promise.all(fines.map(isFineUnpaid))</code>
+        <code>            });</code>
+        <code>        })</code>
+        <code>        .then(function (data) {</code>
+        <code>            return filterUnpaidFines(data.fines, data.isUnpaidFines);</code>
+        <code>        });</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Promises</h2>
+    <ul class="custom-list">
+        <li class="fail">Накладные расходы</li>
+        <li class="pending">Меньше шума</li>
+        <li class="pending">Фиксированный уровень вложенности</li>
+        <li class="pending">Обработка ошибок
+            <ul class="custom-list">
+                <li class="done">Обработка в блоке .catch()</li>
+                <li class="fail"><strike>try { ... } catch(e) { ... }</strike></li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Мой идеальный код</h2>
+    <pre class="javascript">
+        <code>function getUnpaidFines(<mark>Ввести номер автомобиля</mark>) {</code>
+        <code>    var fines = <mark>Получить список штрафов</mark>(carNumber);</code>
+        <code>    var isUnpaidFines = fines.map(<mark>Получить статус оплаты</mark>);</code>
+        <code>    return <mark>Вывести неоплаченные штрафы</mark>(fines, isUnpaidFines);</code>
+        <code>};</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Мой идеальный код</h2>
+    <pre class="javascript">
+        <code>function getUnpaidFines(carNumber) {</code>
+        <code>    var fines = getFinesByCarNumber(carNumber);</code>
+        <code>    var isUnpaidFines = fines.map(isFineUnpaid);</code>
+        <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Мой идеальный код.</small> Generator</h2>
+    <pre class="javascript">
+        <code>function getUnpaidFines(carNumber) {</code>
+        <code>    var fines = <mark>yield</mark> getFinesByCarNumber(carNumber);</code>
+        <code>    var isUnpaidFines = <mark>yield</mark> fines.map(isFineUnpaid);</code>
+        <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Мой идеальный код.</small> Generator</h2>
+    <pre class="javascript">
+        <code>function <mark>*</mark>getUnpaidFines(carNumber) {</code>
+        <code>    var fines = <mark>yield</mark> getFinesByCarNumber(carNumber);</code>
+        <code>    var isUnpaidFines = <mark>yield</mark> fines.map(isFineUnpaid);</code>
+        <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide cover w" style="text-align: center; ">
+    <img class="myGif" src="images/catsShock.gif" alt="catsShock" />
+</section>
+
+<section class="slide">
+    <h2><small>Мой идеальный код.</small> Generator</h2>
+    <pre class="javascript">
+        <code><mark>co</mark>(function *getUnpaidFines(carNumber) {</code>
+        <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
+        <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
+        <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>}) </code>
+        <code>    .then(console.log.bind(console))</code>
+        <code>    .catch(console.error.bind(console));</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Generator</h2>
+    <div>
+        <blockquote>A generator can pause itself in mid-execution, and can be resumed
+            either right away or at a later time.
+        </blockquote>
+    </div>
+    <p><strike>ES6</strike> ES2015</p>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Declaration</h2>
+    <pre class="javascript">
+        <code>function <mark>*</mark>foo(name) {</code>
+        <code>    console.log('Hello, ' + name);</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Execution</h2>
+    <pre class="javascript">
+        <code>function *foo(name) {</code>
+        <code>    console.log('Hello, ' + name);</code>
+        <code>}</code>
+        <code> </code>
+        <code>foo('Frontend Union Conf');</code>
+    </pre>
+
+    <div class="console_port">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>&gt;</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Iterator</h2>
+    <blockquote>An iterator is a structured pattern for pulling information from a source in one-at-a-time fashion.</blockquote>
+    <pre class="javascript">
+        <code>it.next()</code>
+    </pre>
+
+    <div class="console_port">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>&gt; { value: {...}, done: false}</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Execution</h2>
+    <pre class="javascript">
+        <code>function *foo(name) {</code>
+        <code>    console.log('Hello, ' + name);</code>
+        <code>}</code>
+        <code> </code>
+        <code>var it = foo('Frontend Union Conf');</code>
+        <code>it.next();</code>
+    </pre>
+
+    <div class="console_port">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>&gt; Hello, Frontend Union Conf</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> yield</h2>
+    <pre class="javascript">
+        <code>function *foo() {</code>
+        <code>    console.log('1');</code>
+        <code>    <mark>yield;</mark></code>
+        <code>    console.log('2');</code>
+        <code>}</code>
+        <code> </code>
+        <code>var it = foo();</code>
+        <code>it.next();</code>
+        <code>// Do somethings...</code>
+        <code>it.next();</code>
+    </pre>
+
+    <div class="console_position console_port">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>&gt;</code>
+            <code>&gt; 1</code>
+            <code>&gt;</code>
+            <code>&gt; 2</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> yield</h2>
+    <pre class="javascript">
+        <code>function *foo() {</code>
+        <code>    <mark>yield 'Some data';</mark></code>
+        <code>}</code>
+        <code> </code>
+        <code>var it = foo();</code>
+        <code>console.log(it.next());</code>
+        <code>console.log(it.next());</code>
+    </pre>
+
+    <div class="console_port">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>&gt; {value: "Some data", done: false}</code>
+            <code>&gt; {value: undefined, done: true}</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Аналогия</h2>
+    <pre class="javascript">
+        <code>function *order() {</code>
+        <code>    yield 'Цезарь';</code>
+        <code>    yield 'Окрошка';</code>
+        <code>    yield 'Шоколадный кексик с мороженкой';</code>
+        <code>    yield 'Компотик';</code>
+        <code>}</code>
+        <code> </code>
+        <code>var it = order(); // Подходит официант</code>
+        <code>it.next(); // " - Что будете заказывать?"</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Аналогия</h2>
+    <pre class="javascript">
+        <code>function *order() {</code>
+        <code>    yield 'Цезарь';</code>
+        <code>    yield 'Окрошка';</code>
+        <code>    yield 'Шоколадный кексик с мороженкой';</code>
+        <code>    yield 'Компотик';</code>
+        <code>}</code>
+        <code> </code>
+        <code>var it = order(); // Подходит официант</code>
+        <code>it.next(); // " - Что будете заказывать?"</code>
+        <code>it.next(); // " - Хорошо"</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Аналогия</h2>
+    <pre class="javascript">
+        <code>function *order() {</code>
+        <code>    yield 'Цезарь';</code>
+        <code>    yield 'Окрошка';</code>
+        <code>    yield 'Шоколадный кексик с мороженкой';</code>
+        <code>    yield 'Компотик';</code>
+        <code>}</code>
+        <code> </code>
+        <code>var it = order(); // Подходит официант</code>
+        <code>it.next(); // " - Что будете заказывать?"</code>
+        <code>it.next(); // " - Хорошо"</code>
+        <code>it.next(); // " - Что нибудь еще?"</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Аналогия</h2>
+    <pre class="javascript">
+        <code>function *order() {</code>
+        <code>    yield 'Цезарь';</code>
+        <code>    yield 'Окрошка';</code>
+        <code>    yield 'Шоколадный кексик с мороженкой';</code>
+        <code>    yield 'Компотик';</code>
+        <code>}</code>
+        <code> </code>
+        <code>var it = order(); // Подходит официант</code>
+        <code>it.next(); // " - Что будете заказывать?"</code>
+        <code>it.next(); // " - Хорошо"</code>
+        <code>it.next(); // " - Что нибудь еще?"</code>
+        <code>it.next(); // " - Пить что будете?"</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Аналогия</h2>
+    <pre class="javascript">
+        <code>function *order() {</code>
+        <code>    yield 'Цезарь';</code>
+        <code>    yield 'Окрошка';</code>
+        <code>    yield 'Шоколадный кексик с мороженкой';</code>
+        <code>    yield 'Компотик';</code>
+        <code>}</code>
+        <code> </code>
+        <code>var it = order(); // Подходит официант</code>
+        <code>it.next(); // " - Что будете заказывать?"</code>
+        <code>it.next(); // " - Хорошо"</code>
+        <code>it.next(); // " - Что нибудь еще?"</code>
+        <code>it.next(); // " - Пить что будете?"</code>
+        <code>it.next(); // " - Все"</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Generator</h2>
+    <pre class="javascript">
+        <code>co(function *getUnpaidFines(carNumber) {</code>
+        <code>    var fines = yield <mark>getFinesByCarNumber</mark>(carNumber);</code>
+        <code>    var isUnpaidFines = yield fines.map(<mark>isFineUnpaid</mark>);</code>
+        <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>}) </code>
+        <code>    .then(console.log.bind(console))</code>
+        <code>    .catch(console.error.bind(console));</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> co</h2>
+    <blockquote>Generator based control flow goodness for nodejs and the browser, using promises,
+        letting you write non-blocking code in a nice-ish way.</blockquote>
+    <a href="https://github.com/tj/co">https://github.com/tj/co</a>
+    <br/>
+    <br/>
+    <pre class="javascript">
+        <code>co(function* () {</code>
+        <code>    var value = yield Promise.resolve(true);</code>
+        <code>    return value;</code>
+        <code>}).then(function (value) {</code>
+        <code>    console.log(value); // true</code>
+        <code>});</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> spawn</h2>
+    <a href="https://gist.github.com/jakearchibald/31b89cba627924972ad6">spawn</a>
+</section>
+
+<section class="slide">
+    <h2>Generator</h2>
+    <ul class="custom-list">
+        <li class="fail">Накладные расходы</li>
+        <li class="done">Один уровень вложенности</li>
+        <li class="done">Централизованная обработка ошибок:
+            <ul class="custom-list">
+                <li class="done">try { ... } catch(e) { ... }</li>
+                <li class="done">Обработка в блоке .catch()</li>
+            </ul>
+        </li>
+        <li class="done">Минимум шума</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Поддержка</h2>
+
+    <ul>
+        <li>node >=0.11 с флагом --harmony</li>
+        <li>iojs</li>
+        <li>Браузеры <a href="https://clck.ru/9VKMq">https://clck.ru/9VKMq</a>:
+            <ul class="custom-list">
+                <li class="done">Chrome 39.0+</li>
+                <li class="done">Firefox 26.0+</li>
+                <li class="fail">IE (и Edge тоже)</li>
+                <li class="done">Opera 26+</li>
+                <li class="fail">Safari</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Babel</h2>
+    <div><a href="https://babeljs.io/">https://babeljs.io/</a></div>
+    <img src="images/babel.svg" alt="babel" style="position: absolute; height: 100px; right: 70px; top: 70px;"/>
+    <ul>
+        <li>myFile.jsx -> myFile.js</li>
+        <li><a href="https://babeljs.io/docs/setup/">Setup</a>:
+            <ul>
+                <li>CLI</li>
+                <li>Grunt</li>
+                <li>Gulp</li>
+                <li>Browserify</li>
+                <li>...</li>
+                <li>WebStorm</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Альтернативные фреймворки</h2>
+    <ul>
+        <li><a href="http://expressjs.com/">Express</a> -> <a href="http://koajs.com/">Koa</a></li>
+        <li><a href="http://mochajs.org/">mocha</a> -> <a href="https://github.com/blakeembrey/co-mocha">co-mocha</a></li>
+        <li>...</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Ссылки</h2>
+    <ul>
+        <li><a href="https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20&%20beyond/ch3.md#generators">You-Dont-Know-JS</a></li>
+        <li><a href="http://habrahabr.ru/post/182620/">Исследуем JavaScript Generators</a></li>
+        <li><a href="http://habrahabr.ru/post/210330/">Отказываемся от коллбэков: Генераторы в ECMAScript 6</a></li>
+        <li><a href="https://vimeo.com/74925301">Михаил Давыдов "Promise – это не больно"</a></li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Спасибо за внимание!</h2>
+    <div><img src="images/mail.png" alt="mail" style="margin-right: 25px; vertical-align: middle;"/>zhigalov@yandex-team.ru</div>
+    <div><img src="images/twitter.png" alt="twitter" style="margin-right: 25px; vertical-align: middle;"/>@sergey_zhigalov</div>
+</section>
+
+<div class="progress">
+    <div></div>
+</div>
+
+<script src="js/co.js"></script>
+<script src="js/bluebird.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/highlight.min.js"></script>
+<script src="js/shower.min.js"></script>
+<script src="js/index.js"></script>
+<script>
+    var getFinesByCarNumber = Promise.promisify(function getFinesByCarNumber(carNumber, cb) {
+        console.log('getFinesByCarNumber start', carNumber);
+        setTimeout(function () {
+            console.log('getFinesByCarNumber end', carNumber);
+            cb(null, ['001', '002', '003']);
+        }, 3000);
+    });
+    var isFineUnpaid = Promise.promisify(function isFineUnpaid(fine) {
+        var cb = arguments[arguments.length - 1];
+        console.log('isFineUnpaid start', fine);
+        setTimeout(function () {
+            console.log('isFineUnpaid end', fine);
+            cb(null, Math.random() > 0.5);
+        }, 5000 * Math.random());
+    });
+    var filterUnpaidFines = function filterUnpaidFines(fines, isUnpaidFines) {
+        var unpaidFines = [];
+        fines.forEach(function (fine, index) {
+            if (isUnpaidFines[index]) {
+                unpaidFines.push(fine);
+            }
+        });
+        return unpaidFines;
+    };
+
+    $(function () {
+        document.addEventListener('keydown', function(e) {
+            try {
+                var currentSlideNumber = shower.getCurrentSlideNumber();
+
+                switch (e.which) {
+                    case 34: // PgDown
+                    case 40: // Down
+                    case 39: // Right
+                    case 76: // L
+                    case 74: // J
+
+                        var gif = $('section').eq(currentSlideNumber).find('.myGif');
+                        if (gif) {
+                            gif.attr('src', gif.attr('src'))
+                        }
+                        break;
+                }
+            } catch (e) {}
+        }, false);
+    })
+
+</script>
+</body>
+</html>
