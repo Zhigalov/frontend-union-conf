@@ -17,7 +17,7 @@
 <section class="slide first">
     <div class="arrow">
         <img src="images/yandex_lang_ru.svg" class="yandex"/>
-        <h2>Generators</h2>
+        <h2>Трое в лодке не считая колбека</h2>
         <div class="info">
             <p class="author"><span class="first-red">С</span>ергей Жигалов</p>
             <p class="location">Frontend Union Conf, 2015г</p>
@@ -132,7 +132,7 @@
         <code>}</code>
         <code>var myPromisifyFunction = Promise.promisify(myFunction);</code>
         <code> </code>
-        <code>myPromise()</code>
+        <code>myPromisifyFunction()</code>
         <code>    .then(function onResolve() { return data; })</code>
         <code>    .then(function onResolve(data) { ... })</code>
         <code>    .catch(function onReject() { ... })</code>
@@ -203,17 +203,6 @@
 <section class="slide">
     <h2><small>Мой идеальный код.</small> Generator</h2>
     <pre class="javascript">
-        <code>function getUnpaidFines(carNumber) {</code>
-        <code>    var fines = <mark>yield</mark> getFinesByCarNumber(carNumber);</code>
-        <code>    var isUnpaidFines = <mark>yield</mark> fines.map(isFineUnpaid);</code>
-        <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>}</code>
-    </pre>
-</section>
-
-<section class="slide">
-    <h2><small>Мой идеальный код.</small> Generator</h2>
-    <pre class="javascript">
         <code>function <mark>*</mark>getUnpaidFines(carNumber) {</code>
         <code>    var fines = <mark>yield</mark> getFinesByCarNumber(carNumber);</code>
         <code>    var isUnpaidFines = <mark>yield</mark> fines.map(isFineUnpaid);</code>
@@ -229,11 +218,11 @@
 <section class="slide">
     <h2><small>Мой идеальный код.</small> Generator</h2>
     <pre class="javascript">
-        <code><mark>co</mark>(function *getUnpaidFines(carNumber) {</code>
+        <code><mark>co</mark>.wrap(function *getUnpaidFines(carNumber) {</code>
         <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
         <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
         <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>}) </code>
+        <code>})('a123bc')</code>
         <code>    .then(console.log.bind(console))</code>
         <code>    .catch(console.error.bind(console));</code>
     </pre>
@@ -473,8 +462,12 @@
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> spawn</h2>
-    <a href="https://gist.github.com/jakearchibald/31b89cba627924972ad6">spawn</a>
+    <h2><small>Generator.</small> Альтернативы co</h2>
+    <ul>
+        <li><a href="https://gist.github.com/jakearchibald/31b89cba627924972ad6">spawn</a></li>
+        <li><a href="https://github.com/kriskowal/q/wiki/API-Reference#qasyncgeneratorfunction">Q.async</a></li>
+        <li>...</li>
+    </ul>
 </section>
 
 <section class="slide">
@@ -537,6 +530,24 @@
         <li>...</li>
     </ul>
 </section>
+
+<section class="slide">
+    <h2><small>Мой идеальный код.</small> Async await</h2>
+    <pre class="javascript">
+        <code><mark>async</mark> function getUnpaidFines(carNumber) {</code>
+        <code>    var fines = <mark>await</mark> getFinesByCarNumber(carNumber);</code>
+        <code>    var isUnpaidFines = <mark>await</mark> fines.map(isFineUnpaid);</code>
+        <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Async await.</small> Traceur</h2>
+    <div><a href="http://google.github.io/traceur-compiler/demo/repl.html#%2F%2F%20Options%3A%20--async-functions%0A%0Aasync%20function%20getUnpaidFines(carNumber)%20%7B%0A%20%20%20%20var%20fines%20%3D%20await%20getFinesByCarNumber(carNumber)%3B%0A%20%20%20%20var%20isUnpaidFines%20%3D%20await%20fines.map(isFineUnpaid)%3B%0A%20%20%20%20return%20filterUnpaidFines(fines%2C%20isUnpaidFines)%3B%0A%7D%0A%0AgetUnpaidFines()">Traceur</a></div>
+    <img src="images/traceur.png" alt="traceur"/>
+</section>
+
 
 <section class="slide">
     <h2>Ссылки</h2>
