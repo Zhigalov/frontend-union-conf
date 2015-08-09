@@ -314,7 +314,7 @@ body .slide:first-of-type h2::first-letter
     background: url('../images/mail.png') no-repeat;
 }
 
-.slide#contacts .contacts .github
+.slide .github
 {
     padding-left: 60px;
 

@@ -217,10 +217,10 @@ body
     color: #0F0;
 }
 
-.slide ul > li:before
+/*.slide ul > li:before
 {
     content: '\25CF\00A0\00A0';
-}
+}*/
 
 .slide ul ul > li:before,
 .slide ol ul > li:before
