@@ -3,25 +3,32 @@
 <head>
     <title>Generators</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1274, user-scalable=no">
-    <link rel="stylesheet" href="styles/screen.css">
+    <meta name="viewport" content="width=792, user-scalable=no">
+    <link rel="stylesheet" href="themes/yandex/styles/screen.css">
     <link rel="stylesheet" href="styles/print.css" media="print">
     <link rel="stylesheet" href="styles/idea.min.css">
     <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body class="list">
+
 <header class="caption">
-    <h1>Generators</h1>
-    <p>Жигалов Сергей</p>
+    <h1>Трое в лодке не считая колбека</h1>
+    <p>Жигалов Сергей, <a href="http://yandex.ru/">Яндекс</a></p>
 </header>
-<section class="slide first">
-    <div class="arrow">
-        <img src="images/yandex_lang_ru.svg" class="yandex"/>
+
+<section id="section" class="slide cover">
+    <div><h2>Яндекс</h2></div>
+</section>
+
+<section class="slide shout" id="cover">
+    <div>
         <h2>Трое в лодке не считая колбека</h2>
+
         <div class="info">
-            <p class="author"><span class="first-red">С</span>ергей Жигалов</p>
-            <p class="location">Frontend Union Conf, 2015г</p>
+            <p class="author">Жигалов Сергей</p>
+            <p class="location">Frontend Union Conf, 2015 г.</p>
         </div>
+
     </div>
 </section>
 
@@ -35,8 +42,11 @@
     </ol>
 </section>
 
+<section class="slide section">
+    <div><h3>Callback</h3></div>
+</section>
+
 <section class="slide">
-    <h2 style="position: absolute; top: 0;">Callback</h2>
     <pre class="javascript" style="margin-top: 10px">
         <code>function getUnpaidFines(carNumber, cb) {</code>
         <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
@@ -63,7 +73,6 @@
 </section>
 
 <section class="slide">
-    <h2 style="position: absolute; top: 0;">Callback</h2>
     <pre class="javascript" style="margin-top: 10px">
         <code>function getUnpaidFines(carNumber, cb) {</code>
         <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
@@ -86,7 +95,6 @@
 </section>
 
 <section class="slide">
-    <h2 style="position: absolute; top: 0;">Callback</h2>
     <pre class="javascript" style="margin-top: 10px">
         <code>function getUnpaidFines(<mark>Ввести номер автомобиля</mark>, cb) {</code>
         <code>    <mark>Получить список штрафов</mark>(carNumber, function (err, fines) {</code>
@@ -124,6 +132,10 @@
     </ul>
 </section>
 
+<section class="slide section">
+    <div><h3>Promise</h3></div>
+</section>
+
 <section class="slide">
     <h2><small>Promises.</small> Bluebird</h2>
     <pre class="javascript">
@@ -141,7 +153,6 @@
     <img src="images/bluebird.png" alt="bluebird" style="position: absolute; right: 40px; top: 26px;"/>
     <div style="margin-top: 35px;">
         <a href="https://github.com/petkaantonov/bluebird">https://github.com/petkaantonov/bluebird</a><br/>
-        <a href="https://vimeo.com/74925301">Михаил Давыдов "Promise – это не больно"</a>
     </div>
 </section>
 
@@ -228,13 +239,15 @@
     </pre>
 </section>
 
+<section class="slide section">
+    <div><h3>Generators</h3></div>
+</section>
+
 <section class="slide">
     <h2>Generator</h2>
-    <div>
-        <blockquote>A generator can pause itself in mid-execution, and can be resumed
-            either right away or at a later time.
-        </blockquote>
-    </div>
+    <blockquote>A generator can pause itself in mid-execution, and can be resumed either right away or at a later
+        time.
+    </blockquote>
     <p><strike>ES6</strike> ES2015</p>
 </section>
 
@@ -453,10 +466,9 @@
     <br/>
     <pre class="javascript">
         <code>co(function* () {</code>
-        <code>    var value = yield Promise.resolve(true);</code>
-        <code>    return value;</code>
+        <code>    return yield Promise.resolve('Frontend union conf');</code>
         <code>}).then(function (value) {</code>
-        <code>    console.log(value); // true</code>
+        <code>    console.log(value); // Frontend union conf</code>
         <code>});</code>
     </pre>
 </section>
@@ -531,6 +543,11 @@
     </ul>
 </section>
 
+
+<section class="slide section">
+    <div><h3>async/await</h3></div>
+</section>
+
 <section class="slide">
     <h2><small>Мой идеальный код.</small> Async await</h2>
     <pre class="javascript">
@@ -540,6 +557,16 @@
         <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
         <code>}</code>
     </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Async await.</small> Преимущества</h2>
+    <ul>
+        <li>Можно использовать генераторы по прямому назначению</li>
+        <li>Семантичность</li>
+        <li>Приоритет операции</li>
+        <li>Промис-функции без фреймворков</li>
+    </ul>
 </section>
 
 <section class="slide">
@@ -563,11 +590,19 @@
     </ul>
 </section>
 
-<section class="slide">
-    <h2>Спасибо за внимание!</h2>
-    <div><img src="images/mail.png" alt="mail" style="margin-right: 25px; vertical-align: middle;"/>zhigalov@yandex-team.ru</div>
-    <div><img src="images/twitter.png" alt="twitter" style="margin-right: 25px; vertical-align: middle;"/>@sergey_zhigalov</div>
-</section>
+<section class="slide shout" id="contacts"><div><h2>Контакты</h2>
+    <div class="info">
+        <p class="author">Жигалов Сергей</p>
+        <p class="position">Разработчик интерфейсов</p>
+
+        <div class="contacts">
+            <p class="contacts-left contacts-top phone">+7 (912) 680-20-75</p>
+            <p class="contacts-left mail">zhigalov@yandex-team.ru</p>
+            <p class="contacts-right contacts-top twitter">@sergey_zhigalov</p>
+            <p class="contacts-right github">Zhigalov</p>
+        </div>
+    </div>
+</div></section>
 
 <div class="progress">
     <div></div>
