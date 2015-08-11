@@ -119,13 +119,13 @@
 <section class="slide">
     <h2>Callback</h2>
     <ul class="custom-list">
-        <li class="done">Минимум накладных расходов</li>
-        <li class="fail next">Глубокий уровень вложенности</li>
+        <li class="fail">Глубокий уровень вложенности</li>
         <li class="fail next">Смешиваются ошибки и данные</li>
-        <li class="fail next">Повторяется код: <code>if (err) { cb(err); }</code></li>
+        <li class="fail next">Повторяется код <code>if (err) { cb(err); }</code></li>
         <li class="fail next">Не обрабатываются ошибки</li>
         <li class="fail next">Переменные для синхронизации</li>
         <li class="pending next">Код читается не линейно</li>
+        <li class="done next">Минимум накладных расходов</li>
     </ul>
 </section>
 
@@ -395,13 +395,39 @@
 <section class="slide">
     <h2>Generator</h2>
     <pre class="javascript">
-        <code>co.wrap(function *getUnpaidFines(carNumber) {</code>
+        <code>function *getUnpaidFines(carNumber) {</code>
         <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
         <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
         <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
         <code>    console.log(result);</code>
-        <code>})('a123bc');</code>
+        <code>}</code>
     </pre>
+</section>
+
+<section class="slide">
+    <h2>Generator based control flow</h2>
+    <ul>
+        <li class="github"><a href="https://github.com/kriskowal/q/wiki/API-Reference #qasyncgeneratorfunction">Q.async</a></li>
+        <li class="github"><a href="https://github.com/tj/co">tj/co</a></li>
+        <li class="github"><a href="https://github.com/mozilla/task.js">task.js</a></li>
+        <li class="github"><a href="https://github.com/jmar777/suspend">jmar777/suspend</a></li>
+        <li class="github"><a href="https://gist.github.com/jakearchibald/31b89cba627924972ad6">spawn</a></li>
+        <li class="github"><a href="https://github.com/then/yield">then-yield</a></li>
+        <li>...</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Generator based control flow</h2>
+    <ul>
+        <li class="github"><a href="https://github.com/kriskowal/q/wiki/API-Reference #qasyncgeneratorfunction">Q.async</a> ~9400*</li>
+        <li class="github"><a href="https://github.com/tj/co">tj/co</a> ~3500*</li>
+        <li class="github"><a href="https://github.com/mozilla/task.js">task.js</a> ~1320*</li>
+        <li class="github"><a href="https://github.com/jmar777/suspend">jmar777/suspend</a> ~450*</li>
+        <li class="github"><a href="https://gist.github.com/jakearchibald/31b89cba627924972ad6">spawn</a> ~20*</li>
+        <li class="github"><a href="https://github.com/then/yield">then-yield</a> ~10*</li>
+        <li>...</li>
+    </ul>
 </section>
 
 <section class="slide">
@@ -419,15 +445,46 @@
     </pre>
 </section>
 
+
 <section class="slide">
-    <h2><small>Generator.</small> Альтернативы co</h2>
-    <ul>
-        <li class="github"><a href="https://gist.github.com/jakearchibald/31b89cba627924972ad6">spawn</a></li>
-        <li class="github"><a href="https://github.com/kriskowal/q/wiki/API-Reference#qasyncgeneratorfunction">Q.async</a></li>
-        <li class="github"><a href="https://github.com/mozilla/task.js">task.js</a></li>
-        <li class="github"><a href="https://github.com/then/yield">then-yield</a></li>
-        <li>...</li>
-    </ul>
+    <h2><small>Generator.</small> co</h2>
+    <pre class="javascript">
+        <code>function readMyFile (cb) {</code>
+        <code>    fs.readFile('/path/to/my/file', cb)</code>
+        <code>}</code>
+        <code>co(function* () {</code>
+        <code>    return yield readMyFile;</code>
+        <code>}).then(function (value) {</code>
+        <code>    console.log(value); // Contents of the file</code>
+        <code>});</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> thunkify</h2>
+    <p class="github"><a href="https://github.com/tj/node-thunkify">tj/node-thunkify</a></p>
+    <pre class="javascript">
+        <code>var thunkify = require('thunkify');</code>
+        <code>var readFile = thunkify(fs.readFile);</code>
+        <code> </code>
+        <code>co(function* () {</code>
+        <code>    return yield readFile('/path/to/my/file');</code>
+        <code>}).then(function (value) {</code>
+        <code>    console.log(value); // Contents of the file</code>
+        <code>});</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Generator</h2>
+    <pre class="javascript">
+        <code>co.wrap(function *getUnpaidFines(carNumber) {</code>
+        <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
+        <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
+        <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>    console.log(result);</code>
+        <code>})('a123bc');</code>
+    </pre>
 </section>
 
 <section class="slide">
@@ -464,30 +521,11 @@
     <h2><small>Generator.</small> Babel</h2>
     <div><a href="https://babeljs.io/">https://babeljs.io/</a></div>
     <img src="images/babel.svg" alt="babel" style="position: absolute; height: 100px; right: 70px; top: 70px;"/>
-    <ul>
-        <li>myFile.jsx -> myFile.js</li>
-        <li><a href="https://babeljs.io/docs/setup/">Setup</a>:
-            <ul>
-                <li>CLI</li>
-                <li>Grunt</li>
-                <li>Gulp</li>
-                <li>Browserify</li>
-                <li>...</li>
-                <li>WebStorm</li>
-            </ul>
-        </li>
+    <ul class="custom-list">
+        <li class="pending">myFile.js -> myFile-compiled.js</li>
+        <li class="pending"><a href="https://babeljs.io/docs/setup/">Setup</a></li>
     </ul>
 </section>
-
-<section class="slide">
-    <h2>Альтернативные фреймворки</h2>
-    <ul>
-        <li><a href="http://expressjs.com/">Express</a> -> <a href="http://koajs.com/">Koa</a></li>
-        <li><a href="http://mochajs.org/">mocha</a> -> <a href="https://github.com/blakeembrey/co-mocha">co-mocha</a></li>
-        <li>...</li>
-    </ul>
-</section>
-
 
 <section class="slide section">
     <div><h3>async/await</h3></div>
@@ -521,9 +559,22 @@
 </section>
 
 <section class="slide">
-    <h2>StackTrace</h2>
-    <a href="https://github.com/chopachom/syncio">syncio</a>
+    <h2>Generators framework</h2>
+    <ul>
+        <li><a href="http://expressjs.com/">Express</a> -> <a href="http://koajs.com/">Koa</a></li>
+        <li><a href="http://mochajs.org/">mocha</a> -> <a href="https://github.com/blakeembrey/co-mocha">co-mocha</a></li>
+        <li><a href="https://www.npmjs.com/package/monk">monk</a> -> <a href="https://github.com/tj/co-monk">co-monk</a></li>
+        <li>fs -> <a href="https://github.com/tj/co-fs">co-fs</a></li>
+        <li>spawn -> <a href="https://github.com/tj/co-exec">co-exec</a></li>
+        <li>...</li>
+    </ul>
 </section>
+
+
+<!--<section class="slide">-->
+    <!--<h2>StackTrace</h2>-->
+    <!--<a href="https://github.com/chopachom/syncio">syncio</a>-->
+<!--</section>-->
 
 <section class="slide">
     <h2>Ссылки</h2>
