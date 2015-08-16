@@ -343,6 +343,19 @@
 </section>
 
 <section class="slide">
+    <h2>Promises</h2>
+    <pre class="javascript">
+        <code>myPromise()</code>
+        <code>    .then(function onFulfilled() { return data; },</code>
+        <code>          function onRejected() { ... })</code>
+        <code>    .then(function(data) { ... })</code>
+        <code> </code>
+    </pre>
+    <div style="text-align: center"><img src="images/promiseInit.png" alt="promise"/></div>
+    <p><a href="https://promisesaplus.com/">Promises/A+</a></p>
+</section>
+
+<section class="slide">
     <h2><small>Promises.</small> Bluebird</h2>
     <pre class="javascript">
         <code>function myFunction(arg1, arg2, cb) {</code>
@@ -352,9 +365,6 @@
         <code> </code>
         <code>myPromisifyFunction()</code>
         <code>    .then(function onResolve() { return data; })</code>
-        <code>    .then(function onResolve(data) { ... })</code>
-        <code>    .catch(function onReject() { ... })</code>
-        <code> </code>
     </pre>
     <img src="images/bluebird.png" alt="bluebird" style="position: absolute; right: 40px; top: 26px;"/>
     <div style="margin-top: 35px;">
@@ -367,16 +377,33 @@
     <pre class="javascript">
         <code>function getUnpaidFines(carNumber) {</code>
         <code>    return getFinesByCarNumber(carNumber)</code>
-        <code>        .then(function (fines) {</code>
-        <code>            return Promise.props({</code>
-        <code>                fines: fines,</code>
-        <code>                isUnpaidFines: Promise.all(fines.map(isFineUnpaid))</code>
-        <code>            });</code>
-        <code>        })</code>
-        <code>        .then(function (data) {</code>
-        <code>            return filterUnpaidFines(data.fines, data.isUnpaidFines);</code>
-        <code>        })</code>
-        <code>        .catch(function onReject() { ... });</code>
+        <code>        .then(getFinesStatus)</code>
+        <code>        .then(filterUnpaidFines)</code>
+        <code>        .catch(function onReject);</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Promises</h2>
+    <pre class="javascript">
+        <code>function getUnpaidFines(carNumber) {</code>
+        <code>    return getFinesByCarNumber(carNumber)</code>
+        <code>        .then(<mark>getFinesStatus</mark>)</code>
+        <code>        .then(filterUnpaidFines)</code>
+        <code>        .catch(function onReject);</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Promises.</small> getFinesStatus</h2>
+    <pre class="javascript">
+        <code>function getFinesStatus(fines) {</code>
+        <code>    return Promise.props({</code>
+        <code>        fines: fines,</code>
+        <code>        isUnpaidFines: Promise.all(fines.map(isFineUnpaid))</code>
+        <code>    });</code>
         <code>}</code>
     </pre>
 </section>
@@ -385,10 +412,11 @@
     <h2>Promises</h2>
     <ul class="custom-list">
         <li class="done">Меньше визуального шума</li>
-        <li class="done next">Код читается линейно</li>
-        <li class="fail next">Накладные расходы</li>
-        <li class="pending next">Фиксированный уровень вложенности</li>
-        <li class="pending next">Обработка ошибок</li>
+        <li class="done">Код читается линейно</li>
+        <li class="fail">Производительность</li>
+        <li class="fail">Подключать библиотеку промисов</li>
+        <li class="pending">Фиксированный уровень вложенности</li>
+        <li class="pending">Обработка ошибок</li>
     </ul>
 </section>
 
@@ -400,7 +428,6 @@
         <code>    var isUnpaidFines = fines.map(<mark>Получить статус оплаты</mark>);</code>
         <code>    var result = <mark>Вывести неоплаченные штрафы</mark>(fines, isUnpaidFines);</code>
         <code>    console.log(result);</code>
-
         <code>};</code>
     </pre>
 </section>
