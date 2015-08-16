@@ -42,12 +42,12 @@
     </ol>
 </section>
 
-<section class="slide section">
+<section class="slide section cover">
     <div><h3>Callback</h3></div>
 </section>
 
 <section class="slide">
-    <pre class="javascript" style="margin-top: 10px">
+    <pre class="javascript">
         <code>function getUnpaidFines(carNumber, cb) {</code>
         <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
         <code>        if (err) { cb(err); }</code>
@@ -73,18 +73,18 @@
 </section>
 
 <section class="slide">
-    <pre class="javascript" style="margin-top: 10px">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+    <pre class="transparent-code javascript" style="margin-top: 10px">
+        <code>function getUnpaidFines(<mark>Ввести номер автомобиля</mark>, cb) {</code>
+        <code>    <mark>Получить список штрафов</mark>(carNumber, function (err, fines) {</code>
         <code>        if (err) { cb(err); }</code>
         <code>        var isUnpaidFines = [];</code>
         <code>        var finesCounter = fines.length;</code>
         <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>            <mark>Получить статус оплаты</mark>(fine, function (err, isUnpaid) {</code>
         <code>                if (err) { cb(err); }</code>
         <code>                isUnpaidFines[index] = isUnpaid;</code>
         <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    var unpaidFines = <mark>Вывести неоплаченные штрафы</mark></code>
         <code>                    cb(null, unpaidFines);</code>
         <code>                }</code>
         <code>            })</code>
@@ -92,10 +92,9 @@
         <code>    });</code>
         <code>}</code>
     </pre>
-</section>
 
-<section class="slide">
-    <pre class="javascript" style="margin-top: 10px">
+
+    <pre class="translucent-code javascript">
         <code>function getUnpaidFines(<mark>Ввести номер автомобиля</mark>, cb) {</code>
         <code>    <mark>Получить список штрафов</mark>(carNumber, function (err, fines) {</code>
         <code>        if (err) { cb(err); }</code>
@@ -117,19 +116,229 @@
 </section>
 
 <section class="slide">
+    <pre class="transparent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = fines.length;</code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { cb(err); }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                <mark>}</mark></code>
+        <code>            <mark>})</mark></code>
+        <code>        <mark>});</mark></code>
+        <code>    <mark>});</mark></code>
+        <code><mark>}</mark></code>
+    </pre>
+
+    <pre class="translucent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = fines.length;</code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { cb(err); }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                <mark>}</mark></code>
+        <code>            <mark>})</mark></code>
+        <code>        <mark>});</mark></code>
+        <code>    <mark>});</mark></code>
+        <code><mark>}</mark></code>
+    </pre>
+</section>
+
+<section class="slide">
+    <pre class="transparent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = fines.length;</code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { <mark>cb(err);</mark> }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    <mark>cb(null, unpaidFines);</mark></code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+
+    <pre class="translucent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = fines.length;</code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { <mark>cb(err);</mark> }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    <mark>cb(null, unpaidFines);</mark></code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <pre class="transparent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        <mark>if (err) { cb(err); }</mark></code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = fines.length;</code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                <mark>if (err) { cb(err); }</mark></code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+
+    <pre class="translucent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        <mark>if (err) { cb(err); }</mark></code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = fines.length;</code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                <mark>if (err) { cb(err); }</mark></code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <pre class="transparent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = <mark>fines.length;</mark></code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { cb(err); }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+
+    <pre class="translucent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        var isUnpaidFines = [];</code>
+        <code>        var finesCounter = <mark>fines.length;</mark></code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { cb(err); }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (--finesCounter === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <pre class="transparent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        <mark>var isUnpaidFines = [];</mark></code>
+        <code>        <mark>var finesCounter = fines.length;</mark></code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { cb(err); }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (<mark>--finesCounter</mark> === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+
+    <pre class="translucent-code javascript">
+        <code>function getUnpaidFines(carNumber, cb) {</code>
+        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>        if (err) { cb(err); }</code>
+        <code>        <mark>var isUnpaidFines = [];</mark></code>
+        <code>        <mark>var finesCounter = fines.length;</mark></code>
+        <code>        fines.forEach(function (fine, index) {</code>
+        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>                if (err) { cb(err); }</code>
+        <code>                isUnpaidFines[index] = isUnpaid;</code>
+        <code>                if (<mark>--finesCounter</mark> === 0) {</code>
+        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>                    cb(null, unpaidFines);</code>
+        <code>                }</code>
+        <code>            })</code>
+        <code>        });</code>
+        <code>    });</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
     <h2>Callback</h2>
     <ul class="custom-list">
         <li class="fail">Глубокий уровень вложенности</li>
-        <li class="fail next">Смешиваются ошибки и данные</li>
-        <li class="fail next">Повторяется код <code>if (err) { cb(err); }</code></li>
-        <li class="fail next">Не обрабатываются ошибки</li>
-        <li class="fail next">Переменные для синхронизации</li>
-        <li class="pending next">Код читается не линейно</li>
-        <li class="done next">Минимум накладных расходов</li>
+        <li class="fail">Смешиваются ошибки и данные</li>
+        <li class="fail">Повторяется код обработки ошибок</li>
+        <li class="fail">Не обрабатываются ошибки</li>
+        <li class="fail">Переменные для синхронизации</li>
+        <li class="pending">Код читается не линейно</li>
+        <li class="done">Минимум накладных расходов</li>
     </ul>
 </section>
 
-<section class="slide section">
+<section class="slide section cover">
     <div><h3>Promises</h3></div>
 </section>
 
@@ -248,7 +457,7 @@
     </pre>
 </section>
 
-<section class="slide section">
+<section class="slide section cover">
     <div><h3>Generators</h3></div>
 </section>
 
@@ -527,7 +736,7 @@
     </ul>
 </section>
 
-<section class="slide section">
+<section class="slide section cover">
     <div><h3>async/await</h3></div>
 </section>
 

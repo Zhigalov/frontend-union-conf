@@ -45,9 +45,14 @@ body.list
     /*padding: 35px 44px 0 44px;*/
 /*}*/
 
+body.full {
+    counter-reset: slide;
+}
+
 body.full .slide:after
 {
-    content: '';
+    counter-increment: slide;
+    content: counter(slide);
 }
 
 body .slide:first-of-type h2,

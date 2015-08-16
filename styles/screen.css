@@ -827,3 +827,19 @@ pre.small
 {
     border-radius: 0;
 }
+
+.transparent-code {
+    position: absolute;
+}
+
+.transparent-code * {
+    color: rgba(0,0,0,0) !important;
+}
+
+.transparent-code mark {
+    color: #000 !important;
+}
+
+.translucent-code {
+    opacity: .5;
+}
