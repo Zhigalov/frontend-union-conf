@@ -1,16 +1,17 @@
-function* fibonacci() {
-    var a = 0, b = 1, tmp;
+"use strict";
 
+function* fibonacci() {
+    var fn1 = 1;
+    var fn2 = 1;
     while (true) {
-        yield a;
-        tmp = a;
-        a = b;
-        b = tmp + b;
+        var current = fn2;
+        fn2 = fn1;
+        fn1 = fn1 + current;
+        yield current;
     }
 }
-
 var it = fibonacci();
-console.log(it.next().value); // 0
+
 console.log(it.next().value); // 1
 console.log(it.next().value); // 1
 console.log(it.next().value); // 2

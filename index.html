@@ -68,7 +68,7 @@
     </pre>
 </section>
 
-<section class="slide cover w" style="text-align: center;">
+<section class="slide cover w copyright" style="text-align: center;">
     <img class="myGif" src="images/catIsSad.gif" alt="catIsSad" />
 </section>
 
@@ -426,7 +426,7 @@
         <code>function getUnpaidFines(<mark>Ввести номер автомобиля</mark>) {</code>
         <code>    var fines = <mark>Получить список штрафов</mark>(carNumber);</code>
         <code>    var isUnpaidFines = fines.map(<mark>Получить статус оплаты</mark>);</code>
-        <code>    var result = <mark>Вывести неоплаченные штрафы</mark>(fines, isUnpaidFines);</code>
+        <code>    var result = <mark>Получить неоплаченные штрафы</mark>(fines, isUnpaidFines);</code>
         <code>    console.log(result);</code>
         <code>};</code>
     </pre>
@@ -468,19 +468,19 @@
     </pre>
 </section>
 
-<section class="slide cover w" style="text-align: center; ">
+<section class="slide cover w copyright" style="text-align: center; ">
     <img class="myGif" src="images/catsShock.gif" alt="catsShock" />
 </section>
 
 <section class="slide">
     <h2><small>Мой идеальный код.</small> Generator</h2>
     <pre class="javascript">
-        <code>co.wrap(function *getUnpaidFines(carNumber) {</code>
-        <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
+        <code>co(function *getUnpaidFines() {</code>
+        <code>    var fines = yield getFinesByCarNumber('a123bc');</code>
         <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
         <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
         <code>    console.log(result);</code>
-        <code>})('a123bc');</code>
+        <code>});</code>
     </pre>
 </section>
 
@@ -493,26 +493,63 @@
     <blockquote>A generator can pause itself in mid-execution, and can be resumed either right away or at a later
         time.
     </blockquote>
+    <p>ES6</p>
+</section>
+
+<section class="slide">
+    <h2>Generator</h2>
+    <blockquote>A generator can pause itself in mid-execution, and can be resumed either right away or at a later
+        time.
+    </blockquote>
     <p><strike>ES6</strike> ES2015</p>
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Declaration</h2>
+    <h2><small>Generator.</small> Фибоначчи</h2>
     <pre class="javascript">
-        <code>function <mark>*</mark>foo(name) {</code>
+        <code>var it = fibonacci();</code>
+        <code> </code>
+        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value); // 2</code>
+        <code>console.log(it.next().value); // 3</code>
+        <code>console.log(it.next().value); // 5</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Фибоначчи</h2>
+    <pre class="javascript">
+        <code>function* fibonacci() {</code>
+        <code>    var fn1 = 1;</code>
+        <code>    var fn2 = 1;</code>
+        <code>    while (true) {</code>
+        <code>        var current = fn2;</code>
+        <code>        fn2 = fn1;</code>
+        <code>        fn1 = fn1 + current;</code>
+        <code>        yield current;</code>
+        <code>    }</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Объявление</h2>
+    <pre class="javascript">
+        <code>function <mark>*</mark>myGenerator(name) {</code>
         <code>    console.log('Hello, ' + name);</code>
         <code>}</code>
     </pre>
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Execution</h2>
+    <h2><small>Generator.</small> Запуск</h2>
     <pre class="javascript">
-        <code>function *foo(name) {</code>
+        <code>function *myGenerator(name) {</code>
         <code>    console.log('Hello, ' + name);</code>
         <code>}</code>
         <code> </code>
-        <code>foo('Frontend Union Conf');</code>
+        <code>myGenerator('Frontend Union Conf');</code>
     </pre>
 
     <div class="console_port">
@@ -539,13 +576,13 @@
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Execution</h2>
+    <h2><small>Generator.</small> Запуск</h2>
     <pre class="javascript">
-        <code>function *foo(name) {</code>
+        <code>function *myGenerator(name) {</code>
         <code>    console.log('Hello, ' + name);</code>
         <code>}</code>
         <code> </code>
-        <code>var it = foo('Frontend Union Conf');</code>
+        <code>var it = myGenerator('Frontend Union Conf');</code>
         <code>it.next();</code>
     </pre>
 
@@ -561,9 +598,9 @@
     <h2><small>Generator.</small> yield</h2>
     <pre class="javascript">
         <code>function *foo() {</code>
-        <code>    console.log('1');</code>
+        <code>    console.log('Before pause');</code>
         <code>    <mark>yield;</mark></code>
-        <code>    console.log('2');</code>
+        <code>    console.log('After pause');</code>
         <code>}</code>
         <code> </code>
         <code>var it = foo();</code>
@@ -575,10 +612,10 @@
     <div class="console_position console_port">
         <h3>Console:</h3>
         <pre class="console">
-            <code>&gt;</code>
-            <code>&gt; 1</code>
-            <code>&gt;</code>
-            <code>&gt; 2</code>
+            <code> </code>
+            <code>&gt; Before pause</code>
+            <code> </code>
+            <code>&gt; After pause</code>
         </pre>
     </div>
 </section>
@@ -586,11 +623,11 @@
 <section class="slide">
     <h2><small>Generator.</small> yield</h2>
     <pre class="javascript">
-        <code>function *foo() {</code>
+        <code>function *myGenerator() {</code>
         <code>    <mark>yield 'Some data';</mark></code>
         <code>}</code>
         <code> </code>
-        <code>var it = foo();</code>
+        <code>var it = myGenerator();</code>
         <code>console.log(it.next());</code>
         <code>console.log(it.next());</code>
     </pre>
@@ -600,6 +637,31 @@
         <pre class="console">
             <code>&gt; {value: "Some data", done: false}</code>
             <code>&gt; {value: undefined, done: true}</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> yield</h2>
+    <pre class="javascript">
+        <code></code>
+        <code>function *myGenerator() {</code>
+        <code>    var a = yield;</code>
+        <code>    var b = yield;</code>
+        <code>    console.log(a + b);</code>
+        <code>}</code>
+        <code>        </code>
+        <code>var it = myGenerator();</code>
+        <code>it.next();</code>
+        <code>it.next(3);</code>
+        <code>it.next(7);</code>
+    </pre>
+
+    <div class="console_position console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>&gt; 10</code>
+            <code> </code>
         </pre>
     </div>
 </section>
@@ -624,8 +686,13 @@
         <h3>Console:</h3>
         <pre class="console">
             <code>&gt; <span style="color: red">My error!</span></code>
+            <code> </code>
         </pre>
     </div>
+</section>
+
+<section class="slide cover w copyright">
+    <img src="images/catOnFrozen.jpg" alt="Other way"/>
 </section>
 
 <section class="slide">
@@ -671,42 +738,42 @@
     <blockquote>Generator based control flow goodness for nodejs and the browser, using promises,
         letting you write non-blocking code in a nice-ish way.</blockquote>
     <p class="github"><a href="https://github.com/tj/co">tj/co</a></p>
-    <br/>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> co</h2>
     <pre class="javascript">
-        <code>co(function* () {</code>
-        <code>    return yield Promise.resolve('Frontend union conf');</code>
-        <code>}).then(function (value) {</code>
+        <code>var myPromise = co(function* () {</code>
+        <code>    var value = yield Promise.resolve('Frontend union conf');</code>
+        <code>    return value;</code>
+        <code>});</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> co</h2>
+    <pre class="javascript">
+        <code>var myPromise = co(function* () {</code>
+        <code>    var value = yield Promise.resolve('Frontend union conf');</code>
+        <code>    return value;</code>
+        <code>});</code>
+        <code> </code>
+        <code>myPromise.then(function (value) {</code>
         <code>    console.log(value); // Frontend union conf</code>
         <code>});</code>
     </pre>
 </section>
 
-
 <section class="slide">
-    <h2><small>Generator.</small> co</h2>
+    <h2><small>Generator.</small> co.wrap</h2>
     <pre class="javascript">
-        <code>function readMyFile (cb) {</code>
-        <code>    fs.readFile('/path/to/my/file', cb)</code>
-        <code>}</code>
-        <code>co(function* () {</code>
-        <code>    return yield readMyFile;</code>
-        <code>}).then(function (value) {</code>
-        <code>    console.log(value); // Contents of the file</code>
+        <code>var myPromise = co.wrap(function* () {</code>
+        <code>    var value = yield Promise.resolve('Frontend union conf');</code>
+        <code>    return value;</code>
         <code>});</code>
-    </pre>
-</section>
-
-<section class="slide">
-    <h2><small>Generator.</small> thunkify</h2>
-    <p class="github"><a href="https://github.com/tj/node-thunkify">tj/node-thunkify</a></p>
-    <pre class="javascript">
-        <code>var thunkify = require('thunkify');</code>
-        <code>var readFile = thunkify(fs.readFile);</code>
         <code> </code>
-        <code>co(function* () {</code>
-        <code>    return yield readFile('/path/to/my/file');</code>
-        <code>}).then(function (value) {</code>
-        <code>    console.log(value); // Contents of the file</code>
+        <code>myPromise().then(function (value) {</code>
+        <code>    console.log(value); // Frontend union conf</code>
         <code>});</code>
     </pre>
 </section>
@@ -714,12 +781,27 @@
 <section class="slide">
     <h2>Generator</h2>
     <pre class="javascript">
-        <code>co.wrap(function *getUnpaidFines(carNumber) {</code>
+        <code>var myPromise = co.wrap(function *getUnpaidFines(carNumber) {</code>
         <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
         <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
         <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
         <code>    console.log(result);</code>
-        <code>})('a123bc');</code>
+        <code>});</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Generator</h2>
+    <pre class="javascript">
+        <code>var myPromise = co.wrap(function *getUnpaidFines(carNumber) {</code>
+        <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
+        <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
+        <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code>    console.log(result);</code>
+        <code>});</code>
+        <code> </code>
+        <code>myPromise('a123bc')</code>
+        <code>    .then(function() {...})</code>
     </pre>
 </section>
 
@@ -727,21 +809,21 @@
     <h2>Generator</h2>
     <ul class="custom-list">
         <li class="done">Минимум визуального шума</li>
-        <li class="done next">Код читается линейно</li>
-        <li class="done next">Один вложенности</li>
-        <li class="done next">Код выглядит как синхронный</li>
-        <li class="done next">Обработка ошибок</li>
-        <li class="fail next">Накладные расходы</li>
+        <li class="done">Код читается линейно</li>
+        <li class="done">Один уровень вложенности</li>
+        <li class="done">Код выглядит как синхронный</li>
+        <li class="done">Обработка ошибок</li>
+        <li class="fail">Накладные расходы</li>
     </ul>
 </section>
 
 <section class="slide">
     <h2><small>Generator.</small> Поддержка</h2>
 
-    <ul>
-        <li>node >=0.11 с флагом --harmony</li>
-        <li>iojs</li>
-        <li>Браузеры <a href="https://clck.ru/9VKMq">https://clck.ru/9VKMq</a>:
+    <ul class="custom-list">
+        <li class="done">node >=0.11 с флагом --harmony</li>
+        <li class="done">iojs</li>
+        <li class="pending"><a href="https://clck.ru/9VKMq">Браузеры </a>:
             <ul class="custom-list">
                 <li class="done">Chrome 39.0+</li>
                 <li class="done">Firefox 26.0+</li>
@@ -755,7 +837,7 @@
 
 <section class="slide">
     <h2><small>Generator.</small> Babel</h2>
-    <div><a href="https://babeljs.io/">https://babeljs.io/</a></div>
+    <div><a href="https://babeljs.io/">babeljs.io</a></div>
     <img src="images/babel.svg" alt="babel" style="position: absolute; height: 100px; right: 70px; top: 70px;"/>
     <ul class="custom-list">
         <li class="pending">myFile.js -> myFile-compiled.js</li>
