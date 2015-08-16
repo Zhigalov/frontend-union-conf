@@ -16,4 +16,3 @@ console.log(it.next().value); // 1
 console.log(it.next().value); // 2
 console.log(it.next().value); // 3
 console.log(it.next().value); // 5
-
