@@ -505,35 +505,6 @@
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Фибоначчи</h2>
-    <pre class="javascript">
-        <code>var it = fibonacci();</code>
-        <code> </code>
-        <code>console.log(it.next().value); // 1</code>
-        <code>console.log(it.next().value); // 1</code>
-        <code>console.log(it.next().value); // 2</code>
-        <code>console.log(it.next().value); // 3</code>
-        <code>console.log(it.next().value); // 5</code>
-    </pre>
-</section>
-
-<section class="slide">
-    <h2><small>Generator.</small> Фибоначчи</h2>
-    <pre class="javascript">
-        <code>function* fibonacci() {</code>
-        <code>    var fn1 = 1;</code>
-        <code>    var fn2 = 1;</code>
-        <code>    while (true) {</code>
-        <code>        var current = fn2;</code>
-        <code>        fn2 = fn1;</code>
-        <code>        fn1 = fn1 + current;</code>
-        <code>        yield current;</code>
-        <code>    }</code>
-        <code>}</code>
-    </pre>
-</section>
-
-<section class="slide">
     <h2><small>Generator.</small> Объявление</h2>
     <pre class="javascript">
         <code>function <mark>*</mark>myGenerator(name) {</code>
@@ -595,48 +566,118 @@
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> yield</h2>
+    <h2><small>Generator.</small> Фибоначчи</h2>
     <pre class="javascript">
-        <code>function *foo() {</code>
-        <code>    console.log('Before pause');</code>
-        <code>    <mark>yield;</mark></code>
-        <code>    console.log('After pause');</code>
-        <code>}</code>
+        <code>var it = fibonacci();</code>
         <code> </code>
-        <code>var it = foo();</code>
-        <code>it.next();</code>
-        <code>// Do somethings...</code>
-        <code>it.next();</code>
     </pre>
+</section>
 
-    <div class="console_position console_port">
-        <h3>Console:</h3>
-        <pre class="console">
-            <code> </code>
-            <code>&gt; Before pause</code>
-            <code> </code>
-            <code>&gt; After pause</code>
-        </pre>
-    </div>
+<section class="slide">
+    <h2><small>Generator.</small> Фибоначчи</h2>
+    <pre class="javascript">
+        <code>var it = fibonacci();</code>
+        <code> </code>
+        <code>console.log(it.next().value); // 1</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Фибоначчи</h2>
+    <pre class="javascript">
+        <code>var it = fibonacci();</code>
+        <code> </code>
+        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value); // 1</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Фибоначчи</h2>
+    <pre class="javascript">
+        <code>var it = fibonacci();</code>
+        <code> </code>
+        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value); // 2</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Фибоначчи</h2>
+    <pre class="javascript">
+        <code>var it = fibonacci();</code>
+        <code> </code>
+        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value); // 2</code>
+        <code>console.log(it.next().value); // 3</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Фибоначчи</h2>
+    <pre class="javascript">
+        <code>var it = fibonacci();</code>
+        <code> </code>
+        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value); // 2</code>
+        <code>console.log(it.next().value); // 3</code>
+        <code>console.log(it.next().value); // 5</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> Фибоначчи</h2>
+    <pre class="javascript">
+        <code>function* fibonacci() {</code>
+        <code>    var fn1 = 1;</code>
+        <code>    var fn2 = 1;</code>
+        <code>    while (true) {</code>
+        <code>        var current = fn2;</code>
+        <code>        fn2 = fn1;</code>
+        <code>        fn1 = fn1 + current;</code>
+        <code>        yield current;</code>
+        <code>    }</code>
+        <code>}</code>
+    </pre>
 </section>
 
 <section class="slide">
     <h2><small>Generator.</small> yield</h2>
     <pre class="javascript">
-        <code>function *myGenerator() {</code>
-        <code>    <mark>yield 'Some data';</mark></code>
+        <code>function* fibonacci() {</code>
+        <code>    var fn1 = 1;</code>
+        <code>    var fn2 = 1;</code>
+        <code>    while (true) {</code>
+        <code>        var current = fn2;</code>
+        <code>        fn2 = fn1;</code>
+        <code>        fn1 = fn1 + current;</code>
+        <code>        <mark>yield current;</mark></code>
+        <code>    }</code>
         <code>}</code>
-        <code> </code>
-        <code>var it = myGenerator();</code>
-        <code>console.log(it.next());</code>
-        <code>console.log(it.next());</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> yield</h2>
+    <pre class="javascript">
+        <code></code>
+        <code>function *sum() {</code>
+        <code>    var a = yield;</code>
+        <code>    var b = yield;</code>
+        <code>    console.log(a + b);</code>
+        <code>}</code>
+        <code>        </code>
+        <code>var it = sum();</code>
     </pre>
 
-    <div class="console_port">
+    <div class="console_position console_port" style="top: 143px">
         <h3>Console:</h3>
         <pre class="console">
-            <code>&gt; {value: "Some data", done: false}</code>
-            <code>&gt; {value: undefined, done: true}</code>
+            <code>&gt; </code>
+            <code> </code>
         </pre>
     </div>
 </section>
@@ -645,13 +686,60 @@
     <h2><small>Generator.</small> yield</h2>
     <pre class="javascript">
         <code></code>
-        <code>function *myGenerator() {</code>
-        <code>    var a = yield;</code>
+        <code>function *sum() {</code>
+        <code>    var a = <mark>yield;</mark></code>
         <code>    var b = yield;</code>
         <code>    console.log(a + b);</code>
         <code>}</code>
         <code>        </code>
-        <code>var it = myGenerator();</code>
+        <code>var it = sum();</code>
+        <code>it.next();</code>
+    </pre>
+
+    <div class="console_position console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>&gt; </code>
+            <code> </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> yield</h2>
+    <pre class="javascript">
+        <code></code>
+        <code>function *sum() {</code>
+        <code>    var a = <mark>3</mark>;</code>
+        <code>    var b = yield;</code>
+        <code>    console.log(a + b);</code>
+        <code>}</code>
+        <code>        </code>
+        <code>var it = sum();</code>
+        <code>it.next();</code>
+        <code>it.next(3);</code>
+    </pre>
+
+    <div class="console_position console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>&gt; </code>
+            <code> </code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2><small>Generator.</small> yield</h2>
+    <pre class="javascript">
+        <code></code>
+        <code>function *sum() {</code>
+        <code>    var a = 3;</code>
+        <code>    var b = <mark>7</mark>;</code>
+        <code>    console.log(a + b);</code>
+        <code>}</code>
+        <code>        </code>
+        <code>var it = sum();</code>
         <code>it.next();</code>
         <code>it.next(3);</code>
         <code>it.next(7);</code>
@@ -767,12 +855,12 @@
 <section class="slide">
     <h2><small>Generator.</small> co.wrap</h2>
     <pre class="javascript">
-        <code>var myPromise = co.wrap(function* () {</code>
-        <code>    var value = yield Promise.resolve('Frontend union conf');</code>
+        <code>var myPromise = co.wrap(function* (name) {</code>
+        <code>    var value = yield Promise.resolve(name);</code>
         <code>    return value;</code>
         <code>});</code>
         <code> </code>
-        <code>myPromise().then(function (value) {</code>
+        <code>myPromise('Frontend union conf').then(function (value) {</code>
         <code>    console.log(value); // Frontend union conf</code>
         <code>});</code>
     </pre>
@@ -894,16 +982,6 @@
     <!--<a href="https://github.com/chopachom/syncio">syncio</a>-->
 <!--</section>-->
 
-<section class="slide">
-    <h2>Ссылки</h2>
-    <ul>
-        <li><a href="https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20&%20beyond/ch3.md#generators">You-Dont-Know-JS</a></li>
-        <li><a href="http://habrahabr.ru/post/182620/">Исследуем JavaScript Generators</a></li>
-        <li><a href="http://habrahabr.ru/post/210330/">Отказываемся от коллбэков: Генераторы в ECMAScript 6</a></li>
-        <li><a href="https://vimeo.com/74925301">Михаил Давыдов "Promise – это не больно"</a></li>
-    </ul>
-</section>
-
 <section class="slide shout" id="contacts"><div><h2>Контакты</h2>
     <div class="info">
         <p class="author">Жигалов Сергей</p>
@@ -917,6 +995,16 @@
         </div>
     </div>
 </div></section>
+
+<section class="slide">
+    <h2>Ссылки</h2>
+    <ul>
+        <li><a href="https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20&%20beyond/ch3.md#generators">You-Dont-Know-JS</a></li>
+        <li><a href="http://habrahabr.ru/post/182620/">Исследуем JavaScript Generators</a></li>
+        <li><a href="http://habrahabr.ru/post/210330/">Отказываемся от коллбэков: Генераторы в ECMAScript 6</a></li>
+        <li><a href="https://vimeo.com/74925301">Михаил Давыдов "Promise – это не больно"</a></li>
+    </ul>
+</section>
 
 <div class="progress">
     <div></div>
