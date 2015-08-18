@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="ru">
 <head>
-    <title>Generators</title>
+    <title>Трое в лодке не считая колбека</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=792, user-scalable=no">
     <link rel="stylesheet" href="themes/yandex/styles/screen.css">
@@ -906,6 +906,18 @@
 </section>
 
 <section class="slide">
+    <h2>Generators framework</h2>
+    <ul>
+        <li><a href="http://expressjs.com/">Express</a> -> <a href="http://koajs.com/">Koa</a></li>
+        <li><a href="http://mochajs.org/">mocha</a> -> <a href="https://github.com/blakeembrey/co-mocha">co-mocha</a></li>
+        <li><a href="https://www.npmjs.com/package/monk">monk</a> -> <a href="https://github.com/tj/co-monk">co-monk</a></li>
+        <li>fs -> <a href="https://github.com/tj/co-fs">co-fs</a></li>
+        <li>spawn -> <a href="https://github.com/tj/co-exec">co-exec</a></li>
+        <li>...</li>
+    </ul>
+</section>
+
+<section class="slide">
     <h2><small>Generator.</small> Поддержка</h2>
 
     <ul class="custom-list">
@@ -965,15 +977,38 @@
 </section>
 
 <section class="slide">
-    <h2>Generators framework</h2>
-    <ul>
-        <li><a href="http://expressjs.com/">Express</a> -> <a href="http://koajs.com/">Koa</a></li>
-        <li><a href="http://mochajs.org/">mocha</a> -> <a href="https://github.com/blakeembrey/co-mocha">co-mocha</a></li>
-        <li><a href="https://www.npmjs.com/package/monk">monk</a> -> <a href="https://github.com/tj/co-monk">co-monk</a></li>
-        <li>fs -> <a href="https://github.com/tj/co-fs">co-fs</a></li>
-        <li>spawn -> <a href="https://github.com/tj/co-exec">co-exec</a></li>
-        <li>...</li>
-    </ul>
+    <h2>Performance</h2>
+    <table style="width: 100%;">
+        <thead>
+        <tr>
+            <th scope="col"> </th>
+            <th scope="col">Callback</th>
+            <th scope="col">Promise</th>
+            <th scope="col">Generator</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Медиана</td>
+            <td>2 927 mks</td>
+            <td>3 229 mks</td>
+            <td>3 997 mks</td>
+        </tr>
+        <tr>
+            <td>Общее среднее</td>
+            <td>3 059 mks</td>
+            <td>3 067 mks</td>
+            <td>3 536 mks</td>
+        </tr>
+        <tr>
+            <td>Среднее арифметическое</td>
+            <td>3 048 mks</td>
+            <td>3 054 mks</td>
+            <td>3 523 mks</td>
+        </tr>
+        </tbody>
+    </table>
+    <p style="font-size: small; color: darkgrey;">* Замеры проводились на iojs-3.0 на mac air</p>
 </section>
 
 

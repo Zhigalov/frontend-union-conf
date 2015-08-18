@@ -1,7 +1,11 @@
+var result = [];
+
+for (var i = 0; i < 100; i++) {
+    result.push('fine #' + i);
+}
+
 module.exports = function getFinesByCarNumber(carNumber, cb) {
-    console.log('getFinesByCarNumber start', carNumber);
     setTimeout(function () {
-        console.log('getFinesByCarNumber end', carNumber);
-        cb(null, ['001', '002', '003']);
-    }, 20);
+        cb(null, result);
+    }, 0);
 };

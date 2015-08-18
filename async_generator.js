@@ -1,20 +1,16 @@
+'use strict';
+
 var Promise = require('bluebird');
+var co = require('co');
 var getFinesByCarNumber = Promise.promisify(require('./getFinesByCarNumber'));
 var isFineUnpaid = Promise.promisify(require('./isFineUnpaid'));
 var filterUnpaidFines = require('./filterUnpaidFines');
 
-function getUnpaidFines(carNumber) {
-    return getFinesByCarNumber(carNumber)
-        .then(function (fines) {
-            return Promise.props({
-                fines: fines,
-                isUnpaidFines: Promise.all(fines.map(isFineUnpaid))
-            });
-        })
-        .then(function (data) {
-            return filterUnpaidFines(data.fines, data.isUnpaidFines)
-        });
-}
+var getUnpaidFines = co.wrap(function *(carNumber) {
+    var fines = yield getFinesByCarNumber(carNumber);
+    var isUnpaidFines = yield fines.map(isFineUnpaid);
+    return filterUnpaidFines(fines, isUnpaidFines);
+});
 
 var times = [];
 var count = 1000;
