@@ -364,7 +364,7 @@
         <code>var myPromisifyFunction = Promise.promisify(myFunction);</code>
         <code> </code>
         <code>myPromisifyFunction()</code>
-        <code>    .then(function onResolve() { return data; })</code>
+        <code>    .then(function() { ... })</code>
     </pre>
     <img src="images/bluebird.png" alt="bluebird" style="position: absolute; right: 40px; top: 26px;"/>
     <div style="margin-top: 35px;">
@@ -391,7 +391,7 @@
         <code>    return getFinesByCarNumber(carNumber)</code>
         <code>        .then(<mark>getFinesStatus</mark>)</code>
         <code>        .then(filterUnpaidFines)</code>
-        <code>        .catch(function onReject);</code>
+        <code>        .catch(onReject);</code>
         <code>}</code>
     </pre>
 </section>
