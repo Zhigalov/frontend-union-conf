@@ -1,10 +1,2 @@
 .idea
 node_modules
-async_generator-compiled.*
-fibonacci-compiled.*
-async_cb-compiled.*
-async_promise-compiled.*
-babel-compiled.*
-filterUnpaidFines-compiled.*
-getFinesByCarNumber-compiled.*
-isFineUnpaid-compiled.*

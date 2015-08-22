@@ -1,18 +1,18 @@
 var Promise = require('bluebird');
-var getFinesByCarNumber = Promise.promisify(require('./getFinesByCarNumber'));
-var isFineUnpaid = Promise.promisify(require('./isFineUnpaid'));
-var filterUnpaidFines = require('./filterUnpaidFines');
+var getAirlines = Promise.promisify(require('./getAirlines'));
+var getCost = Promise.promisify(require('./getCost'));
+var sortAirlines = require('./sortAirlines');
 
-function getUnpaidFines(carNumber) {
-    return getFinesByCarNumber(carNumber)
-        .then(function (fines) {
+function getFlights() {
+    return getAirlines()
+        .then(function (airlines) {
             return Promise.props({
-                fines: fines,
-                isUnpaidFines: Promise.all(fines.map(isFineUnpaid))
+                airlines: airlines,
+                flightCosts: Promise.all(airlines.map(getCost))
             });
         })
         .then(function (data) {
-            return filterUnpaidFines(data.fines, data.isUnpaidFines)
+            return sortAirlines(data.airlines, data.flightCosts)
         });
 }
 
@@ -22,7 +22,7 @@ var begin = process.hrtime()
 
 function step() {
     var beginTime = process.hrtime();
-    return getUnpaidFines('A263BC')
+    return getFlights()
         .then(function () {
             var diff = process.hrtime(beginTime);
             times.push(diff[0] * 1e9 + diff[1]);

@@ -2,14 +2,14 @@
 
 var Promise = require('bluebird');
 var co = require('co');
-var getFinesByCarNumber = Promise.promisify(require('./getFinesByCarNumber'));
-var isFineUnpaid = Promise.promisify(require('./isFineUnpaid'));
-var filterUnpaidFines = require('./filterUnpaidFines');
+var getAirlines = Promise.promisify(require('./getAirlines'));
+var getCost = Promise.promisify(require('./getCost'));
+var sortAirlines = require('./sortAirlines');
 
-var getUnpaidFines = co.wrap(function *(carNumber) {
-    var fines = yield getFinesByCarNumber(carNumber);
-    var isUnpaidFines = yield fines.map(isFineUnpaid);
-    return filterUnpaidFines(fines, isUnpaidFines);
+var getFlights = co.wrap(function *() {
+    var airlines = yield getAirlines();
+    var flightCosts = yield airlines.map(getCost);
+    return sortAirlines(airlines, flightCosts);
 });
 
 var times = [];
@@ -18,7 +18,7 @@ var begin = process.hrtime()
 
 function step() {
     var beginTime = process.hrtime();
-    return getUnpaidFines('A263BC')
+    return getFlights()
         .then(function () {
             var diff = process.hrtime(beginTime);
             times.push(diff[0] * 1e9 + diff[1]);

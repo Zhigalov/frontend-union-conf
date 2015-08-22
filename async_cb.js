@@ -1,23 +1,23 @@
-var getFinesByCarNumber = require('./getFinesByCarNumber');
-var isFineUnpaid = require('./isFineUnpaid');
-var filterUnpaidFines = require('./filterUnpaidFines');
+var getAirlines = require('./getAirlines');
+var getCost = require('./getCost');
+var sortAirlines = require('./sortAirlines');
 
-function getUnpaidFines(carNumber, cb) {
-    getFinesByCarNumber(carNumber, function (err, fines) {
+function getFlights(cb) {
+    getAirlines(function (err, airlines) {
         if (err) {
             cb(err);
         }
-        var isUnpaidFines = [];
-        var finesCounter = fines.length;
-        fines.forEach(function (fine, index) {
-            isFineUnpaid(fine, function (err, isUnpaid) {
+        var flightCosts = [];
+        var airlinesCounter = airlines.length;
+        airlines.forEach(function (airline, index) {
+            getCost(airline, function (err, cost) {
                 if (err) {
                     cb(err);
                 }
-                isUnpaidFines[index] = isUnpaid;
-                if (--finesCounter === 0) {
-                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);
-                    cb(null, unpaidFines);
+                flightCosts[index] = cost;
+                if (--airlinesCounter === 0) {
+                    var sortedAirlines = sortAirlines(airlines, flightCosts);
+                    cb(null, sortedAirlines);
                 }
             })
         });
@@ -30,7 +30,7 @@ var begin = process.hrtime()
 
 function step() {
     var beginTime = process.hrtime();
-    getUnpaidFines('A263BC', function (err) {
+    getFlights(function (err) {
         if (err) {
             console.error(err);
         } else {

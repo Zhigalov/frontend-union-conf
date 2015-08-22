@@ -97,31 +97,12 @@ section.slide.cover h2 {
 }
 
 .slide pre.console {
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    color: #b4b4b4;
-    -webkit-tab-size: 4;
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
     tab-size: 4;
     line-height: 1;
     font-family: 'PT Mono', monospace;
-
-    /*position: absolute;*/
-    /*display: none;*/
-    /*left: 0;*/
-    /*top: 0;*/
-    /*width: 100%;*/
-    /*height: 50%;*/
-    /*overflow-y: auto;*/
-
-    /*box-sizing: border-box;*/
     padding: 15px 0 0 15px;
 
     font-size: 120%;
-
-    background: rgba(0, 0, 0, .8);
 }
 
 .slide pre.console code::before {
@@ -455,9 +436,8 @@ img.fullWidth {
     left: 640px;
     text-align: right;
 }
+
 div.console_port {
-    background: black;
-    color: #b4b4b4;
     padding: 15px;
     box-sizing: border-box;
     margin-top: 30px;
@@ -477,4 +457,46 @@ div.console_port {
 
 .slide pre {
     margin: 0 !important;
+}
+
+table * {
+    text-align: center !important;
+}
+
+table td:first-child,
+table th:first-child {
+    text-align: left !important;
+}
+
+table td, table tr {
+    background: none !important;
+}
+
+table td, table th {
+    padding: 5px 15px !important;
+    border: none;
+}
+
+.good {
+    background: rgba(0, 255, 0, .5) !important;
+}
+
+.bad {
+    background: rgba(255, 0, 0, .5) !important;
+}
+
+.neutral {
+    background: rgba(255, 255, 0, .5) !important;
+}
+
+.console_port h3 {
+    font-family: 'PT Mono';
+    font-size: 20px !important;
+    margin-bottom: 10px !important;
+}
+
+.console_port,
+.console * {
+    color: #000 !important;
+    background-color: #ddd !important;
 }

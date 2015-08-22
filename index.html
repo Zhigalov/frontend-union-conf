@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="ru">
 <head>
-    <title>Трое в лодке не считая колбека</title>
+    <title>Three Men in a Boat (To Say Nothing of the Callback)</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=792, user-scalable=no">
     <link rel="stylesheet" href="themes/yandex/styles/screen.css">
@@ -12,33 +12,27 @@
 <body class="list">
 
 <header class="caption">
-    <h1>Трое в лодке не считая колбека</h1>
-    <p>Жигалов Сергей, <a href="http://yandex.ru/">Яндекс</a></p>
+    <h1>Three Men in a Boat <br/>(To Say Nothing of the Callback)</h1>
+    <p>Zhigalov Sergey, <a href="http://yandex.ru/">Yandex</a></p>
 </header>
-
-<section id="section" class="slide cover">
-    <div><h2>Яндекс</h2></div>
-</section>
 
 <section class="slide shout" id="cover">
     <div>
-        <h2>Трое в лодке не считая колбека</h2>
+        <h2>Three Men in a Boat <br/>(To Say Nothing of the Callback)</h2>
 
         <div class="info">
-            <p class="author">Жигалов Сергей</p>
-            <p class="location">Frontend Union Conf, 2015 г.</p>
+            <p class="author">Zhigalov Sergey</p>
+            <p class="location">Frontend Union Conf, 2015</p>
         </div>
-
     </div>
 </section>
 
 <section class="slide">
-    <h2>Список неоплаченных штрафов</h2>
+    <h2>Flights to St. Petersburg</h2>
     <ol>
-        <li>Ввести номер автомобиля</li>
-        <li>Получить по номеру автомобиля список штрафов</li>
-        <li>Получить по каждому штрафу статус оплаты</li>
-        <li>Вывести неоплаченные штрафы</li>
+        <li>Get list of airlines</li>
+        <li>Get flight cost</li>
+        <li>Sort airlines by cost in ascending order</li>
     </ol>
 </section>
 
@@ -48,18 +42,18 @@
 
 <section class="slide">
     <pre class="javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = fines.length;</code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = airlines.length;</code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { cb(err); }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -74,18 +68,18 @@
 
 <section class="slide">
     <pre class="transparent-code javascript" style="margin-top: 10px">
-        <code>function getUnpaidFines(<mark>Ввести номер автомобиля</mark>, cb) {</code>
-        <code>    <mark>Получить список штрафов</mark>(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    <mark>Get list of airlines</mark>(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = fines.length;</code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            <mark>Получить статус оплаты</mark>(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = airlines.length;</code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            <mark>Get flight cost</mark>(airline, function (err, cost) {</code>
         <code>                if (err) { cb(err); }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = <mark>Вывести неоплаченные штрафы</mark></code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = <mark>Sort airlines</mark>(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -95,18 +89,18 @@
 
 
     <pre class="translucent-code javascript">
-        <code>function getUnpaidFines(<mark>Ввести номер автомобиля</mark>, cb) {</code>
-        <code>    <mark>Получить список штрафов</mark>(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    <mark>Get list of airlines</mark>(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = fines.length;</code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            <mark>Получить статус оплаты</mark>(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = airlines.length;</code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            <mark>Get flight cost</mark>(airline, function (err, cost) {</code>
         <code>                if (err) { cb(err); }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = <mark>Вывести неоплаченные штрафы</mark></code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = <mark>Sort airlines</mark>(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -117,18 +111,18 @@
 
 <section class="slide">
     <pre class="transparent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = fines.length;</code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = airlines.length;</code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { cb(err); }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                <mark>}</mark></code>
         <code>            <mark>})</mark></code>
         <code>        <mark>});</mark></code>
@@ -137,18 +131,18 @@
     </pre>
 
     <pre class="translucent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = fines.length;</code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = airlines.length;</code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { cb(err); }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                <mark>}</mark></code>
         <code>            <mark>})</mark></code>
         <code>        <mark>});</mark></code>
@@ -159,18 +153,18 @@
 
 <section class="slide">
     <pre class="transparent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = fines.length;</code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = airlines.length;</code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { <mark>cb(err);</mark> }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    <mark>cb(null, unpaidFines);</mark></code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    <mark>cb(null, sortedAirlines);</mark></code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -179,18 +173,18 @@
     </pre>
 
     <pre class="translucent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = fines.length;</code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = airlines.length;</code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { <mark>cb(err);</mark> }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    <mark>cb(null, unpaidFines);</mark></code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    <mark>cb(null, sortedAirlines);</mark></code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -201,18 +195,18 @@
 
 <section class="slide">
     <pre class="transparent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        <mark>if (err) { cb(err); }</mark></code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = fines.length;</code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = airlines.length;</code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                <mark>if (err) { cb(err); }</mark></code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -221,18 +215,18 @@
     </pre>
 
     <pre class="translucent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        <mark>if (err) { cb(err); }</mark></code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = fines.length;</code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = airlines.length;</code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                <mark>if (err) { cb(err); }</mark></code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -243,18 +237,18 @@
 
 <section class="slide">
     <pre class="transparent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = <mark>fines.length;</mark></code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = <mark>airlines.length;</mark></code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { cb(err); }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    cb(null, unpaidairlines);</code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -263,18 +257,18 @@
     </pre>
 
     <pre class="translucent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        var isUnpaidFines = [];</code>
-        <code>        var finesCounter = <mark>fines.length;</mark></code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        var flightsCost = [];</code>
+        <code>        var airlinesCounter = <mark>airlines.length;</mark></code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { cb(err); }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (--finesCounter === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (--airlinesCounter === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -285,18 +279,18 @@
 
 <section class="slide">
     <pre class="transparent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        <mark>var isUnpaidFines = [];</mark></code>
-        <code>        <mark>var finesCounter = fines.length;</mark></code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        <mark>var flightsCost = [];</mark></code>
+        <code>        <mark>var airlinesCounter = airlines.length;</mark></code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { cb(err); }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (<mark>--finesCounter</mark> === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (<mark>--airlinesCounter</mark> === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -305,18 +299,18 @@
     </pre>
 
     <pre class="translucent-code javascript">
-        <code>function getUnpaidFines(carNumber, cb) {</code>
-        <code>    getFinesByCarNumber(carNumber, function (err, fines) {</code>
+        <code>function getFlights(cb) {</code>
+        <code>    getAirlines(function (err, airlines) {</code>
         <code>        if (err) { cb(err); }</code>
-        <code>        <mark>var isUnpaidFines = [];</mark></code>
-        <code>        <mark>var finesCounter = fines.length;</mark></code>
-        <code>        fines.forEach(function (fine, index) {</code>
-        <code>            isFineUnpaid(fine, function (err, isUnpaid) {</code>
+        <code>        <mark>var flightsCost = [];</mark></code>
+        <code>        <mark>var airlinesCounter = airlines.length;</mark></code>
+        <code>        airlines.forEach(function (airline, index) {</code>
+        <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { cb(err); }</code>
-        <code>                isUnpaidFines[index] = isUnpaid;</code>
-        <code>                if (<mark>--finesCounter</mark> === 0) {</code>
-        <code>                    var unpaidFines = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>                    cb(null, unpaidFines);</code>
+        <code>                flightsCost[index] = cost;</code>
+        <code>                if (<mark>--airlinesCounter</mark> === 0) {</code>
+        <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
+        <code>                    cb(null, sortedAirlines);</code>
         <code>                }</code>
         <code>            })</code>
         <code>        });</code>
@@ -326,16 +320,44 @@
 </section>
 
 <section class="slide">
-    <h2>Callback</h2>
-    <ul class="custom-list">
-        <li class="fail">Глубокий уровень вложенности</li>
-        <li class="fail">Смешиваются ошибки и данные</li>
-        <li class="fail">Повторяется код обработки ошибок</li>
-        <li class="fail">Не обрабатываются ошибки</li>
-        <li class="fail">Переменные для синхронизации</li>
-        <li class="pending">Код читается не линейно</li>
-        <li class="done">Минимум накладных расходов</li>
-    </ul>
+    <table style="width: 100%;">
+        <thead>
+        <tr>
+            <th scope="col">Criteria</th>
+            <th scope="col">Callback</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>overheads</td>
+            <td class="good">no</td>
+        </tr>
+        <tr>
+            <td>level of nesting</td>
+            <td class="bad">5</td>
+        </tr>
+        <tr>
+            <td>visual noise</td>
+            <td class="bad">yes</td>
+        </tr>
+        <tr>
+            <td>separation of data and error</td>
+            <td class="bad">no</td>
+        </tr>
+        <tr>
+            <td>code duplication</td>
+            <td class="bad">yes</td>
+        </tr>
+        <tr>
+            <td>missed error</td>
+            <td class="bad">yes</td>
+        </tr>
+        <tr>
+            <td>linear code</td>
+            <td class="bad">no</td>
+        </tr>
+        </tbody>
+    </table>
 </section>
 
 <section class="slide section cover">
@@ -351,8 +373,9 @@
         <code>    .then(function(data) { ... })</code>
         <code> </code>
     </pre>
-    <div style="text-align: center"><img src="images/promiseInit.png" alt="promise"/></div>
+    <div style="text-align: center"><img src="images/promiseInit.png" alt="promise" height="180"/></div>
     <p><a href="https://promisesaplus.com/">Promises/A+</a></p>
+    <p><a href="https://vimeo.com/74925301">Михаил Давыдов "Promise – это не больно"</a></p>
 </section>
 
 <section class="slide">
@@ -375,95 +398,128 @@
 <section class="slide">
     <h2>Promises</h2>
     <pre class="javascript">
-        <code>function getUnpaidFines(carNumber) {</code>
-        <code>    return getFinesByCarNumber(carNumber)</code>
-        <code>        .then(getFinesStatus)</code>
-        <code>        .then(filterUnpaidFines)</code>
-        <code>        .catch(function onReject);</code>
-        <code>}</code>
-    </pre>
-</section>
-
-<section class="slide">
-    <h2>Promises</h2>
-    <pre class="javascript">
-        <code>function getUnpaidFines(carNumber) {</code>
-        <code>    return getFinesByCarNumber(carNumber)</code>
-        <code>        .then(<mark>getFinesStatus</mark>)</code>
-        <code>        .then(filterUnpaidFines)</code>
+        <code>function getFlights() {</code>
+        <code>    return getAirlines()</code>
+        <code>        .then(getCosts)</code>
+        <code>        .then(sortAirlines)</code>
         <code>        .catch(onReject);</code>
         <code>}</code>
     </pre>
 </section>
 
 <section class="slide">
-    <h2><small>Promises.</small> getFinesStatus</h2>
+    <h2>Promises</h2>
     <pre class="javascript">
-        <code>function getFinesStatus(fines) {</code>
+        <code>function getFlights() {</code>
+        <code>    return getAirlines()</code>
+        <code>        .then(<mark>getCosts</mark>)</code>
+        <code>        .then(sortAirlines)</code>
+        <code>        .catch(onReject);</code>
+        <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2><small>Promises.</small> getCosts</h2>
+    <pre class="javascript">
+        <code>function getCosts(airlines) {</code>
         <code>    return Promise.props({</code>
-        <code>        fines: fines,</code>
-        <code>        isUnpaidFines: Promise.all(fines.map(isFineUnpaid))</code>
+        <code>        airlines: airlines,</code>
+        <code>        flightsCost: Promise.all(airlines.map(getCost))</code>
         <code>    });</code>
         <code>}</code>
     </pre>
 </section>
 
 <section class="slide">
-    <h2>Promises</h2>
-    <ul class="custom-list">
-        <li class="done">Меньше визуального шума</li>
-        <li class="done">Код читается линейно</li>
-        <li class="fail">Производительность</li>
-        <li class="fail">Подключать библиотеку промисов</li>
-        <li class="pending">Фиксированный уровень вложенности</li>
-        <li class="pending">Обработка ошибок</li>
-    </ul>
+    <table style="width: 100%;">
+        <thead>
+        <tr>
+            <th scope="col">Criteria</th>
+            <th scope="col">Callback</th>
+            <th scope="col">Promises</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>overheads</td>
+            <td class="good">no</td>
+            <td class="bad">yes</td>
+        </tr>
+        <tr>
+            <td>level of nesting</td>
+            <td class="bad">5</td>
+            <td class="neutral">2</td>
+        </tr>
+        <tr>
+            <td>visual noise</td>
+            <td class="bad">yes</td>
+            <td class="neutral">no</td>
+        </tr>
+        <tr>
+            <td>separation of data and error</td>
+            <td class="bad">no</td>
+            <td class="neutral">yes</td>
+        </tr>
+        <tr>
+            <td>code duplication</td>
+            <td class="bad">yes</td>
+            <td class="good">no</td>
+        </tr>
+        <tr>
+            <td>missed error</td>
+            <td class="bad">yes</td>
+            <td class="good">no</td>
+        </tr>
+        <tr>
+            <td>linear code</td>
+            <td class="bad">no</td>
+            <td class="neutral">yes</td>
+        </tr>
+        </tbody>
+    </table>
 </section>
 
 <section class="slide">
-    <h2>Мой идеальный код</h2>
+    <h2>Perfect code</h2>
     <pre class="javascript">
-        <code>function getUnpaidFines(<mark>Ввести номер автомобиля</mark>) {</code>
-        <code>    var fines = <mark>Получить список штрафов</mark>(carNumber);</code>
-        <code>    var isUnpaidFines = fines.map(<mark>Получить статус оплаты</mark>);</code>
-        <code>    var result = <mark>Получить неоплаченные штрафы</mark>(fines, isUnpaidFines);</code>
-        <code>    console.log(result);</code>
+        <code>function getFlights() {</code>
+        <code>    var airlines = <mark>Get list of airlines</mark>()</code>
+        <code>    var flightsCost = airlines.map(<mark>Get flight cost</mark>);</code>
+        <code>    return <mark>Sort airlines</mark>(airlines, flightsCost);</code>
         <code>};</code>
     </pre>
 </section>
 
 <section class="slide">
-    <h2>Мой идеальный код</h2>
+    <h2>Perfect code</h2>
     <pre class="javascript">
-        <code>function getUnpaidFines(carNumber) {</code>
-        <code>    var fines = getFinesByCarNumber(carNumber);</code>
-        <code>    var isUnpaidFines = fines.map(isFineUnpaid);</code>
-        <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>    console.log(result);</code>
+        <code>function getFlights() {</code>
+        <code>    var airlines = getAirlines();</code>
+        <code>    var flightsCost = airlines.map(getCost);</code>
+        <code>    return sortAirlines(airlines, flightsCost);</code>
         <code>}</code>
     </pre>
 </section>
 
 <section class="slide">
-    <h2>Мой идеальный код</h2>
+    <h2><small>Perfect code.</small> Sync</h2>
     <pre class="javascript">
-        <code>function getUnpaidFines(carNumber) {</code>
-        <code>    var fines = getFinesByCarNumber<mark>Sync</mark>(carNumber);</code>
-        <code>    var isUnpaidFines = fines.map(isFineUnpaid<mark>Sync</mark>);</code>
-        <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>    console.log(result);</code>
+        <code>function getFlights() {</code>
+        <code>    var airlines = getAirlines<mark>Sync</mark>();</code>
+        <code>    var flightsCost = airlines.map(getCost<mark>Sync</mark>);</code>
+        <code>    return sortAirlines(airlines, flightsCost);</code>
         <code>}</code>
     </pre>
 </section>
 
 <section class="slide">
-    <h2><small>Мой идеальный код.</small> Generator</h2>
+    <h2><small>Perfect code.</small> Generator</h2>
     <pre class="javascript">
-        <code>function <mark>*</mark>getUnpaidFines(carNumber) {</code>
-        <code>    var fines = <mark>yield</mark> getFinesByCarNumber(carNumber);</code>
-        <code>    var isUnpaidFines = <mark>yield</mark> fines.map(isFineUnpaid);</code>
-        <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>    console.log(result);</code>
+        <code>function <mark>*</mark>getFlights() {</code>
+        <code>    var airlines = <mark>yield</mark> getAirlines();</code>
+        <code>    var flightsCost = <mark>yield</mark> airlines.map(getCost);</code>
+        <code>    return sortAirlines(airlines, flightsCost);</code>
         <code>}</code>
     </pre>
 </section>
@@ -473,14 +529,13 @@
 </section>
 
 <section class="slide">
-    <h2><small>Мой идеальный код.</small> Generator</h2>
+    <h2><small>Perfect code.</small> Generator</h2>
     <pre class="javascript">
-        <code>co(function *getUnpaidFines() {</code>
-        <code>    var fines = yield getFinesByCarNumber('a123bc');</code>
-        <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
-        <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>    console.log(result);</code>
-        <code>});</code>
+        <code>co(function *getFlights() {</code>
+        <code>    var airlines = yield getAirlines();</code>
+        <code>    var flightsCost = yield airlines.map(getCost);</code>
+        <code>    return sortAirlines(airlines, flightsCost);</code>
+        <code>}).then(console.log.bind(console));</code>
     </pre>
 </section>
 
@@ -505,7 +560,7 @@
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Объявление</h2>
+    <h2><small>Generator.</small> Declaration</h2>
     <pre class="javascript">
         <code>function <mark>*</mark>myGenerator(name) {</code>
         <code>    console.log('Hello, ' + name);</code>
@@ -514,7 +569,7 @@
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Запуск</h2>
+    <h2><small>Generator.</small> Run</h2>
     <pre class="javascript">
         <code>function *myGenerator(name) {</code>
         <code>    console.log('Hello, ' + name);</code>
@@ -541,13 +596,14 @@
     <div class="console_port">
         <h3>Console:</h3>
         <pre class="console">
-            <code>&gt; { value: {...}, done: false}</code>
+            <code>{ value: {...}, done: false}</code>
+            <code>&gt;</code>
         </pre>
     </div>
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Запуск</h2>
+    <h2><small>Generator.</small> Run</h2>
     <pre class="javascript">
         <code>function *myGenerator(name) {</code>
         <code>    console.log('Hello, ' + name);</code>
@@ -560,13 +616,14 @@
     <div class="console_port">
         <h3>Console:</h3>
         <pre class="console">
-            <code>&gt; Hello, Frontend Union Conf</code>
+            <code>Hello, Frontend Union Conf</code>
+            <code>&gt;</code>
         </pre>
     </div>
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Фибоначчи</h2>
+    <h2><small>Generator.</small> Fibonacci</h2>
     <pre class="javascript">
         <code>var it = fibonacci();</code>
         <code> </code>
@@ -574,64 +631,114 @@
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Фибоначчи</h2>
+    <h2><small>Generator.</small> Fibonacci</h2>
     <pre class="javascript">
         <code>var it = fibonacci();</code>
         <code> </code>
-        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value);</code>
     </pre>
+
+    <div class="console_position console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>1</code>
+            <code>&gt;</code>
+        </pre>
+    </div>
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Фибоначчи</h2>
+    <h2><small>Generator.</small> Fibonacci</h2>
     <pre class="javascript">
         <code>var it = fibonacci();</code>
         <code> </code>
-        <code>console.log(it.next().value); // 1</code>
-        <code>console.log(it.next().value); // 1</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
     </pre>
+
+    <div class="console_position console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>1</code>
+            <code>1</code>
+            <code>&gt;</code>
+        </pre>
+    </div>
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Фибоначчи</h2>
+    <h2><small>Generator.</small> Fibonacci</h2>
     <pre class="javascript">
         <code>var it = fibonacci();</code>
         <code> </code>
-        <code>console.log(it.next().value); // 1</code>
-        <code>console.log(it.next().value); // 1</code>
-        <code>console.log(it.next().value); // 2</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
     </pre>
+
+    <div class="console_position console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>1</code>
+            <code>1</code>
+            <code>2</code>
+            <code>&gt;</code>
+        </pre>
+    </div>
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Фибоначчи</h2>
+    <h2><small>Generator.</small> Fibonacci</h2>
     <pre class="javascript">
         <code>var it = fibonacci();</code>
         <code> </code>
-        <code>console.log(it.next().value); // 1</code>
-        <code>console.log(it.next().value); // 1</code>
-        <code>console.log(it.next().value); // 2</code>
-        <code>console.log(it.next().value); // 3</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
     </pre>
+
+    <div class="console_position console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>1</code>
+            <code>1</code>
+            <code>2</code>
+            <code>3</code>
+            <code>&gt;</code>
+        </pre>
+    </div>
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Фибоначчи</h2>
+    <h2><small>Generator.</small> Fibonacci</h2>
     <pre class="javascript">
         <code>var it = fibonacci();</code>
         <code> </code>
-        <code>console.log(it.next().value); // 1</code>
-        <code>console.log(it.next().value); // 1</code>
-        <code>console.log(it.next().value); // 2</code>
-        <code>console.log(it.next().value); // 3</code>
-        <code>console.log(it.next().value); // 5</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
+        <code>console.log(it.next().value);</code>
     </pre>
+
+    <div class="console_position console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>1</code>
+            <code>1</code>
+            <code>2</code>
+            <code>3</code>
+            <code>5</code>
+            <code>&gt;</code>
+        </pre>
+    </div>
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Фибоначчи</h2>
+    <h2><small>Generator.</small> Fibonacci</h2>
     <pre class="javascript">
-        <code>function* fibonacci() {</code>
+        <code>function *fibonacci() {</code>
         <code>    var fn1 = 1;</code>
         <code>    var fn2 = 1;</code>
         <code>    while (true) {</code>
@@ -647,7 +754,7 @@
 <section class="slide">
     <h2><small>Generator.</small> yield</h2>
     <pre class="javascript">
-        <code>function* fibonacci() {</code>
+        <code>function *fibonacci() {</code>
         <code>    var fn1 = 1;</code>
         <code>    var fn2 = 1;</code>
         <code>    while (true) {</code>
@@ -748,8 +855,8 @@
     <div class="console_position console_port" style="top: 143px">
         <h3>Console:</h3>
         <pre class="console">
-            <code>&gt; 10</code>
-            <code> </code>
+            <code>10</code>
+            <code>&gt; </code>
         </pre>
     </div>
 </section>
@@ -770,11 +877,11 @@
         <code>it.throw(new Error('My error!'))</code>
     </pre>
 
-    <div class="console_position console_port" style="top: 175px">
+    <div class="console_position console_port" style="top: 143px">
         <h3>Console:</h3>
         <pre class="console">
-            <code>&gt; <span style="color: red">My error!</span></code>
-            <code> </code>
+            <code><span style="color: #c00 !important">My error!</span></code>
+            <code>&gt; </code>
         </pre>
     </div>
 </section>
@@ -786,11 +893,10 @@
 <section class="slide">
     <h2>Generator</h2>
     <pre class="javascript">
-        <code>function *getUnpaidFines(carNumber) {</code>
-        <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
-        <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
-        <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>    console.log(result);</code>
+        <code>function *getFlights() {</code>
+        <code>    var airlines = yield getAirlines();</code>
+        <code>    var flightsCost = yield airlines.map(getCost);</code>
+        <code>    return sortAirlines(airlines, flightsCost);</code>
         <code>}</code>
     </pre>
 </section>
@@ -832,7 +938,7 @@
     <h2><small>Generator.</small> co</h2>
     <pre class="javascript">
         <code>var myPromise = co(function* () {</code>
-        <code>    var value = yield Promise.resolve('Frontend union conf');</code>
+        <code>    var value = yield Promise.resolve('Hello, #func!');</code>
         <code>    return value;</code>
         <code>});</code>
     </pre>
@@ -842,26 +948,53 @@
     <h2><small>Generator.</small> co</h2>
     <pre class="javascript">
         <code>var myPromise = co(function* () {</code>
-        <code>    var value = yield Promise.resolve('Frontend union conf');</code>
+        <code>    var value = yield Promise.resolve('Hello, #func!');</code>
         <code>    return value;</code>
         <code>});</code>
         <code> </code>
         <code>myPromise.then(function (value) {</code>
-        <code>    console.log(value); // Frontend union conf</code>
+        <code>    console.log(value);</code>
         <code>});</code>
     </pre>
+
+    <div class="console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>Hello, #func!</code>
+            <code>&gt;</code>
+        </pre>
+    </div>
 </section>
 
 <section class="slide">
     <h2><small>Generator.</small> co.wrap</h2>
     <pre class="javascript">
-        <code>var myPromise = co.wrap(function* (name) {</code>
+        <code>var func = co.wrap(function* (name) {</code>
         <code>    var value = yield Promise.resolve(name);</code>
         <code>    return value;</code>
         <code>});</code>
         <code> </code>
-        <code>myPromise('Frontend union conf').then(function (value) {</code>
-        <code>    console.log(value); // Frontend union conf</code>
+        <code>func('Hello, #func!').then(function (value) {</code>
+        <code>    console.log(value);</code>
+        <code>});</code>
+    </pre>
+
+    <div class="console_port" style="top: 143px">
+        <h3>Console:</h3>
+        <pre class="console">
+            <code>Hello, #func!</code>
+            <code>&gt;</code>
+        </pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>Generator</h2>
+    <pre class="javascript">
+        <code>var getFlights = co.wrap(function *() {</code>
+        <code>    var airlines = yield getAirlines();</code>
+        <code>    var flightsCost = yield airlines.map(getCost);</code>
+        <code>    return sortAirlines(airlines, flightsCost);</code>
         <code>});</code>
     </pre>
 </section>
@@ -869,40 +1002,72 @@
 <section class="slide">
     <h2>Generator</h2>
     <pre class="javascript">
-        <code>var myPromise = co.wrap(function *getUnpaidFines(carNumber) {</code>
-        <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
-        <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
-        <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>    console.log(result);</code>
-        <code>});</code>
-    </pre>
-</section>
-
-<section class="slide">
-    <h2>Generator</h2>
-    <pre class="javascript">
-        <code>var myPromise = co.wrap(function *getUnpaidFines(carNumber) {</code>
-        <code>    var fines = yield getFinesByCarNumber(carNumber);</code>
-        <code>    var isUnpaidFines = yield fines.map(isFineUnpaid);</code>
-        <code>    var result = filterUnpaidFines(fines, isUnpaidFines);</code>
-        <code>    console.log(result);</code>
+        <code>var getFlights = co.wrap(function *() {</code>
+        <code>    var airlines = yield getAirlines();</code>
+        <code>    var flightsCost = yield airlines.map(getCost);</code>
+        <code>    return sortAirlines(airlines, flightsCost);</code>
         <code>});</code>
         <code> </code>
-        <code>myPromise('a123bc')</code>
-        <code>    .then(function() {...})</code>
+        <code>getFlights()</code>
+        <code>    .then(console.log.bind(console))</code>
     </pre>
 </section>
 
 <section class="slide">
-    <h2>Generator</h2>
-    <ul class="custom-list">
-        <li class="done">Минимум визуального шума</li>
-        <li class="done">Код читается линейно</li>
-        <li class="done">Один уровень вложенности</li>
-        <li class="done">Код выглядит как синхронный</li>
-        <li class="done">Обработка ошибок</li>
-        <li class="fail">Накладные расходы</li>
-    </ul>
+    <table style="width: 100%;">
+        <thead>
+        <tr>
+            <th scope="col">Criteria</th>
+            <th scope="col">Callback</th>
+            <th scope="col">Promises</th>
+            <th scope="col">Generator</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>overheads</td>
+            <td class="good">no</td>
+            <td class="bad">yes</td>
+            <td class="bad">yes</td>
+        </tr>
+        <tr>
+            <td>level of nesting</td>
+            <td class="bad">5</td>
+            <td class="neutral">2</td>
+            <td class="good">1</td>
+        </tr>
+        <tr>
+            <td>visual noise</td>
+            <td class="bad">yes</td>
+            <td class="neutral">no</td>
+            <td class="good">no</td>
+        </tr>
+        <tr>
+            <td>separation of data and error</td>
+            <td class="bad">no</td>
+            <td class="good">yes</td>
+            <td class="good">yes</td>
+        </tr>
+        <tr>
+            <td>code duplication</td>
+            <td class="bad">yes</td>
+            <td class="good">no</td>
+            <td class="good">no</td>
+        </tr>
+        <tr>
+            <td>missed error</td>
+            <td class="bad">yes</td>
+            <td class="good">no</td>
+            <td class="good">no</td>
+        </tr>
+        <tr>
+            <td>linear code</td>
+            <td class="bad">no</td>
+            <td class="neutral">yes</td>
+            <td class="good">yes</td>
+        </tr>
+        </tbody>
+    </table>
 </section>
 
 <section class="slide">
@@ -918,16 +1083,16 @@
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> Поддержка</h2>
+    <h2><small>Generator.</small> Support</h2>
 
     <ul class="custom-list">
-        <li class="done">node >=0.11 с флагом --harmony</li>
+        <li class="done">node >=0.11 with --harmony</li>
         <li class="done">iojs</li>
-        <li class="pending"><a href="https://clck.ru/9VKMq">Браузеры </a>:
+        <li class="pending"><a href="https://clck.ru/9VKMq">Browsers</a>
             <ul class="custom-list">
                 <li class="done">Chrome 39.0+</li>
                 <li class="done">Firefox 26.0+</li>
-                <li class="fail">IE (и Edge тоже)</li>
+                <li class="fail">IE (+ Edge)</li>
                 <li class="done">Opera 26+</li>
                 <li class="fail">Safari</li>
             </ul>
@@ -950,29 +1115,29 @@
 </section>
 
 <section class="slide">
-    <h2><small>Мой идеальный код.</small> Async await</h2>
+    <h2><small>Perfect code.</small> Async await</h2>
     <pre class="javascript">
-        <code><mark>async</mark> function getUnpaidFines(carNumber) {</code>
-        <code>    var fines = <mark>await</mark> getFinesByCarNumber(carNumber);</code>
-        <code>    var isUnpaidFines = <mark>await</mark> fines.map(isFineUnpaid);</code>
-        <code>    return filterUnpaidFines(fines, isUnpaidFines);</code>
+        <code><mark>async</mark> function getFlights() {</code>
+        <code>    var airlines = <mark>await</mark> getAirlines();</code>
+        <code>    var flightsCost = <mark>await</mark> airlines.map(getCost);</code>
+        <code>    return sortAirlines(airlines, flightsCost);</code>
         <code>}</code>
     </pre>
 </section>
 
 <section class="slide">
-    <h2><small>Async await.</small> Преимущества</h2>
+    <h2><small>Async await.</small> Advantages</h2>
     <ul class="custom-list">
-        <li class="done">Можно использовать генераторы по прямому назначению</li>
-        <li class="done">Семантичность</li>
-        <li class="done">Приоритет операции</li>
-        <li class="done">Промис-функции без фреймворков</li>
+        <li class="done">You use generators as-is</li>
+        <li class="done">Semantically code</li>
+        <li class="done">Correct operations priority</li>
+        <li class="done">Returns promise for frameworks using</li>
     </ul>
 </section>
 
 <section class="slide">
     <h2><small>Async await.</small> Traceur</h2>
-    <div><a href="http://google.github.io/traceur-compiler/demo/repl.html#%2F%2F%20Options%3A%20--async-functions%0A%0Aasync%20function%20getUnpaidFines(carNumber)%20%7B%0A%20%20%20%20var%20fines%20%3D%20await%20getFinesByCarNumber(carNumber)%3B%0A%20%20%20%20var%20isUnpaidFines%20%3D%20await%20fines.map(isFineUnpaid)%3B%0A%20%20%20%20return%20filterUnpaidFines(fines%2C%20isUnpaidFines)%3B%0A%7D%0A%0AgetUnpaidFines()">Traceur</a></div>
+    <div><a href="http://google.github.io/traceur-compiler/demo/repl.html#%2F%2F%20Options%3A%20--async-functions%0A%0Aasync%20function%20getFlights()%20%7B%0A%20%20%20%20var%20airlines%20%3D%20await%20getAirlines()%3B%0A%20%20%20%20var%20flightsCost%20%3D%20await%20airlines.map(getCost)%3B%0A%20%20%20%20return%20sortAirlines(airlines%2C%20flightsCost)%3B%0A%7D%0A%0AgetFlights()">Traceur</a></div>
     <img src="images/traceur.png" alt="traceur"/>
 </section>
 
@@ -989,26 +1154,20 @@
         </thead>
         <tbody>
         <tr>
-            <td>Медиана</td>
-            <td>2 927 mks</td>
-            <td>3 229 mks</td>
-            <td>3 997 mks</td>
+            <td>Median</td>
+            <td>292 ms</td>
+            <td>322 ms</td>
+            <td>399 ms</td>
         </tr>
         <tr>
-            <td>Общее среднее</td>
-            <td>3 059 mks</td>
-            <td>3 067 mks</td>
-            <td>3 536 mks</td>
-        </tr>
-        <tr>
-            <td>Среднее арифметическое</td>
-            <td>3 048 mks</td>
-            <td>3 054 mks</td>
-            <td>3 523 mks</td>
+            <td>Average</td>
+            <td>304 ms</td>
+            <td>305 ms</td>
+            <td>352 ms</td>
         </tr>
         </tbody>
     </table>
-    <p style="font-size: small; color: darkgrey;">* Замеры проводились на iojs-3.0 на mac air</p>
+    <p style="font-size: small; color: darkgrey;">* Measured in iojs-3.0 on mac air</p>
 </section>
 
 
@@ -1017,28 +1176,21 @@
     <!--<a href="https://github.com/chopachom/syncio">syncio</a>-->
 <!--</section>-->
 
-<section class="slide shout" id="contacts"><div><h2>Контакты</h2>
+<section class="slide shout" id="contacts"><div><h2>Contacts</h2>
     <div class="info">
-        <p class="author">Жигалов Сергей</p>
-        <p class="position">Разработчик интерфейсов</p>
+        <p class="author">Zhigalov Sergey</p>
+        <p class="position">Frontend developer</p>
 
         <div class="contacts">
-            <p class="contacts-left contacts-top phone">+7 (912) 680-20-75</p>
-            <p class="contacts-left mail">zhigalov@yandex-team.ru</p>
+            <p class="contacts-left contacts-top mail">zhigalov@yandex-team.ru</p>
             <p class="contacts-right contacts-top twitter">@sergey_zhigalov</p>
-            <p class="contacts-right github">Zhigalov</p>
         </div>
     </div>
 </div></section>
 
-<section class="slide">
-    <h2>Ссылки</h2>
-    <ul>
-        <li><a href="https://github.com/getify/You-Dont-Know-JS/blob/master/es6%20&%20beyond/ch3.md#generators">You-Dont-Know-JS</a></li>
-        <li><a href="http://habrahabr.ru/post/182620/">Исследуем JavaScript Generators</a></li>
-        <li><a href="http://habrahabr.ru/post/210330/">Отказываемся от коллбэков: Генераторы в ECMAScript 6</a></li>
-        <li><a href="https://vimeo.com/74925301">Михаил Давыдов "Promise – это не больно"</a></li>
-    </ul>
+<section class="slide" style="text-align: center; font-size: 40px;">
+    <p><a href="https://clck.ru/9Ztyr">https://clck.ru/9Ztyr</a></p>
+    <img style="margin: 50px;" src="images/qr.png" alt="QR" height="375"/>
 </section>
 
 <div class="progress">
@@ -1052,29 +1204,25 @@
 <script src="js/shower.min.js"></script>
 <script src="js/index.js"></script>
 <script>
-    var getFinesByCarNumber = Promise.promisify(function getFinesByCarNumber(carNumber, cb) {
-        console.log('getFinesByCarNumber start', carNumber);
+    var getAirlines = Promise.promisify(function getAirlines(cb) {
+        console.log('getAirlines start');
         setTimeout(function () {
-            console.log('getFinesByCarNumber end', carNumber);
-            cb(null, ['001', '002', '003']);
+            console.log('getAirlines end');
+            cb(null, ['001', '002', '003', '004', '005', '006', '007', '008', '009', '010']);
         }, 3000);
     });
-    var isFineUnpaid = Promise.promisify(function isFineUnpaid(fine) {
+    var getCost = Promise.promisify(function getCost(airline) {
         var cb = arguments[arguments.length - 1];
-        console.log('isFineUnpaid start', fine);
+        console.log('getCost start', airline);
         setTimeout(function () {
-            console.log('isFineUnpaid end', fine);
-            cb(null, Math.random() > 0.5);
+            console.log('getCost end', airline);
+            cb(null, Math.random() * 10000);
         }, 5000 * Math.random());
     });
-    var filterUnpaidFines = function filterUnpaidFines(fines, isUnpaidFines) {
-        var unpaidFines = [];
-        fines.forEach(function (fine, index) {
-            if (isUnpaidFines[index]) {
-                unpaidFines.push(fine);
-            }
+    var sortAirlines = function sortAirlines(airlines, flightsCost) {
+        return airlines.sort(function (a, b) {
+            return flightsCost[airlines.indexOf(a)] - flightsCost[airlines.indexOf(b)];
         });
-        return unpaidFines;
     };
 
     $(function () {
