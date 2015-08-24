@@ -3,9 +3,15 @@ var getAirlines = Promise.promisify(require('./getAirlines'));
 var getCost = Promise.promisify(require('./getCost'));
 var sortAirlines = require('./sortAirlines');
 var printBenchmark = require('./printBenchmark');
+var argv = require('minimist')(process.argv.slice(2));
+
+var times = [];
+var repeatCount = argv.repeatCount || 1000;
+var airlinesCount = argv.airlinesCount || 100;
+var begin = process.hrtime();
 
 function getFlights() {
-    return getAirlines()
+    return getAirlines(airlinesCount)
         .then(function (airlines) {
             return Promise.props({
                 airlines: airlines,
@@ -17,17 +23,13 @@ function getFlights() {
         });
 }
 
-var times = [];
-var count = 1000;
-var begin = process.hrtime();
-
 function step() {
     var beginTime = process.hrtime();
     return getFlights()
         .then(function () {
             var diff = process.hrtime(beginTime);
             times.push(diff[0] * 1e9 + diff[1]);
-            if (--count) {
+            if (--repeatCount) {
                 return step();
             }
         })

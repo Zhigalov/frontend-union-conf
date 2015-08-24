@@ -13,6 +13,7 @@
     "bluebird": "^2.9.26",
     "co": "^4.5.4",
     "lodash": "^3.10.1",
+    "thunkify": "^2.1.2",
     "vow": "^0.4.9"
   },
   "devDependencies": {

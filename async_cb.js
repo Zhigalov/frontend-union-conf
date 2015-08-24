@@ -2,9 +2,15 @@ var getAirlines = require('./getAirlines');
 var getCost = require('./getCost');
 var sortAirlines = require('./sortAirlines');
 var printBenchmark = require('./printBenchmark');
+var argv = require('minimist')(process.argv.slice(2));
+
+var times = [];
+var repeatCount = argv.repeatCount || 1000;
+var airlinesCount = argv.airlinesCount || 100;
+var begin = process.hrtime();
 
 function getFlights(cb) {
-    getAirlines(function (err, airlines) {
+    getAirlines(airlinesCount, function (err, airlines) {
         if (err) {
             return cb(err);
         }
@@ -27,10 +33,6 @@ function getFlights(cb) {
     });
 }
 
-var times = [];
-var count = 1000;
-var begin = process.hrtime();
-
 function step() {
     var beginTime = process.hrtime();
     getFlights(function (err) {
@@ -39,7 +41,7 @@ function step() {
             console.error(err);
         } else {
             times.push(diff[0] * 1e9 + diff[1]);
-            if (--count) {
+            if (--repeatCount) {
                 step();
             } else {
                 printBenchmark(times);
