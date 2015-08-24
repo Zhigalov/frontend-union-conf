@@ -500,3 +500,9 @@ table td, table th {
     color: #000 !important;
     background-color: #ddd !important;
 }
+
+.cover-image {
+    height: 266px;
+    width: 307px;
+    margin: 100px 0 0 400px;
+}
