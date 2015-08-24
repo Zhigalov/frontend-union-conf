@@ -2,7 +2,7 @@ var spawn = require('child_process').spawn;
 var thunkify = require('thunkify');
 var Promise = require('bluebird');
 var co = require('co');
-var MAX_COUNT = 50;
+var MAX_COUNT = 1000;
 
 function *step(script, count) {
     var node = spawn('node', [script, '--airlinesCount=' + count]);
@@ -19,7 +19,7 @@ function *step(script, count) {
         node.on('close', resolve)
     });
 
-    count += 10;
+    count += 50;
     count < MAX_COUNT && (yield step(script, count));
 }
 

@@ -1146,30 +1146,7 @@
 
 <section class="slide">
     <h2>Performance</h2>
-    <table style="width: 100%;">
-        <thead>
-        <tr>
-            <th scope="col"> </th>
-            <th scope="col">Callback</th>
-            <th scope="col">Promise</th>
-            <th scope="col">Generator</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Median</td>
-            <td>292 ms</td>
-            <td>322 ms</td>
-            <td>399 ms</td>
-        </tr>
-        <tr>
-            <td>Average</td>
-            <td>304 ms</td>
-            <td>305 ms</td>
-            <td>352 ms</td>
-        </tr>
-        </tbody>
-    </table>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     <p style="font-size: small; color: darkgrey;">* Measured in iojs-3.0 on mac air</p>
 </section>
 
@@ -1206,6 +1183,8 @@
 <script src="js/highlight.min.js"></script>
 <script src="js/shower.min.js"></script>
 <script src="js/index.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/exporting.js"></script>
 <script>
     var getAirlines = Promise.promisify(function getAirlines(cb) {
         console.log('getAirlines start');
@@ -1248,7 +1227,64 @@
                 }
             } catch (e) {}
         }, false);
-    })
+    });
+
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Performance'
+            },
+            xAxis: {
+                tickInterval: 50
+            },
+            yAxis: {
+                title: {
+                    text: 'Airlines count (ms)'
+                },
+                min: 0,
+                minorGridLineWidth: 0
+            },
+            tooltip: {
+                valueSuffix: ' ms'
+            },
+            plotOptions: {
+                spline: {
+                    lineWidth: 2,
+                    states: {
+                        hover: {
+                            lineWidth: 5
+                        }
+                    },
+                    marker: {
+                        enabled: false
+                    },
+                    pointInterval: 50,
+                    pointStart: 0
+                }
+            },
+            series: [
+                {
+                    name: 'Callback',
+                    data: [291, 299, 313, 340, 473, 499, 533, 696, 748, 801, 925, 1173, 1271, 1469, 1647, 1875, 2067, 2193, 2393, 2568]
+
+                }, {
+                    name: 'Promise',
+                    data: [317, 366, 486, 653, 916, 1247, 1566, 1960, 2480, 3083, 3799, 4510, 5445, 6372, 7559, 8656, 11979, 12069, 15405, 16999]
+                }, {
+                    name: 'Generator',
+                    data: [380, 411, 526, 689, 810, 1328, 1705, 2185, 2781, 3549, 4415, 5360, 6405, 6687, 8006, 8610, 12237, 14099, 15610, 17777]
+                }
+            ],
+            navigation: {
+                menuItemStyle: {
+                    fontSize: '10px'
+                }
+            }
+        });
+    });
 
 </script>
 </body>
