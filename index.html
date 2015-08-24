@@ -156,12 +156,12 @@
     <pre class="transparent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { return cb(err); }</code>
+        <code>        if (err) { return <mark>cb(err);</mark> }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { <mark>return cb(err);</mark> }</code>
+        <code>                if (err) { return <mark>cb(err);</mark> }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -176,12 +176,12 @@
     <pre class="translucent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { return cb(err); }</code>
+        <code>        if (err) { return <mark>cb(err);</mark>  }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { <mark>return cb(err);</mark> }</code>
+        <code>                if (err) { return <mark>cb(err);</mark> }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -970,31 +970,9 @@
 </section>
 
 <section class="slide">
-    <h2><small>Generator.</small> co.wrap</h2>
-    <pre class="javascript">
-        <code>var func = co.wrap(function* (name) {</code>
-        <code>    var value = yield Promise.resolve(name);</code>
-        <code>    return value;</code>
-        <code>});</code>
-        <code> </code>
-        <code>func('Hello, #func!').then(function (value) {</code>
-        <code>    console.log(value);</code>
-        <code>});</code>
-    </pre>
-
-    <div class="console_port" style="top: 143px">
-        <h3>Console:</h3>
-        <pre class="console">
-            <code>Hello, #func!</code>
-            <code>&gt;</code>
-        </pre>
-    </div>
-</section>
-
-<section class="slide">
     <h2>Generator</h2>
     <pre class="javascript">
-        <code>var getFlights = co.wrap(function *() {</code>
+        <code>var getFlights = co(function *() {</code>
         <code>    var airlines = yield getAirlines();</code>
         <code>    var flightsCost = yield airlines.map(getCost);</code>
         <code>    return sortAirlines(airlines, flightsCost);</code>
@@ -1005,15 +983,48 @@
 <section class="slide">
     <h2>Generator</h2>
     <pre class="javascript">
-        <code>var getFlights = co.wrap(function *() {</code>
+        <code>var getFlights = co(function *() {</code>
         <code>    var airlines = yield getAirlines();</code>
         <code>    var flightsCost = yield airlines.map(getCost);</code>
         <code>    return sortAirlines(airlines, flightsCost);</code>
         <code>});</code>
         <code> </code>
-        <code>getFlights()</code>
+        <code>getFlights</code>
         <code>    .then(console.log.bind(console))</code>
+        <code>    .catch(console.error.bind(console));</code>
     </pre>
+</section>
+
+<section class="slide">
+    <h2>Promise</h2>
+    <pre class="javascript">
+        <code>function getFlights() {</code>
+        <code>    return getAirlines()</code>
+        <code>        .then(function (airlines) {</code>
+        <code>            return Promise.props({</code>
+        <code>                airlines: airlines,</code>
+        <code>                flightsCost: Promise.all(airlines.map(getCost))</code>
+        <code>            });</code>
+        <code>        })</code>
+        <code>        .then(sortAirlines);</code>
+        <code>}</code>
+        <code> </code>
+        <code>getFlights</code>
+        <code>    .then(console.log.bind(console))</code>
+        <code>    .catch(console.error.bind(console));</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Generators framework</h2>
+    <ul>
+        <li><a href="http://expressjs.com/">Express</a> -> <a href="http://koajs.com/">Koa</a></li>
+        <li><a href="http://mochajs.org/">mocha</a> -> <a href="https://github.com/blakeembrey/co-mocha">co-mocha</a></li>
+        <li><a href="https://www.npmjs.com/package/monk">monk</a> -> <a href="https://github.com/tj/co-monk">co-monk</a></li>
+        <li>fs -> <a href="https://github.com/tj/co-fs">co-fs</a></li>
+        <li>spawn -> <a href="https://github.com/tj/co-exec">co-exec</a></li>
+        <li>...</li>
+    </ul>
 </section>
 
 <section class="slide">
@@ -1071,18 +1082,6 @@
         </tr>
         </tbody>
     </table>
-</section>
-
-<section class="slide">
-    <h2>Generators framework</h2>
-    <ul>
-        <li><a href="http://expressjs.com/">Express</a> -> <a href="http://koajs.com/">Koa</a></li>
-        <li><a href="http://mochajs.org/">mocha</a> -> <a href="https://github.com/blakeembrey/co-mocha">co-mocha</a></li>
-        <li><a href="https://www.npmjs.com/package/monk">monk</a> -> <a href="https://github.com/tj/co-monk">co-monk</a></li>
-        <li>fs -> <a href="https://github.com/tj/co-fs">co-fs</a></li>
-        <li>spawn -> <a href="https://github.com/tj/co-exec">co-exec</a></li>
-        <li>...</li>
-    </ul>
 </section>
 
 <section class="slide">
