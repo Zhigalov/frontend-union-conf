@@ -1,6 +1,7 @@
 var getAirlines = require('./getAirlines');
 var getCost = require('./getCost');
 var sortAirlines = require('./sortAirlines');
+var printBenchmark = require('./printBenchmark');
 
 function getFlights(cb) {
     getAirlines(function (err, airlines) {
@@ -9,7 +10,9 @@ function getFlights(cb) {
         }
         var flightCosts = [];
         var airlinesCounter = airlines.length;
-        airlines.forEach(function (airline, index) {
+
+        for (var index = 0; index < airlines.length; index++) {
+            var airline = airlines[index];
             getCost(airline, function (err, cost) {
                 if (err) {
                     return cb(err);
@@ -20,43 +23,29 @@ function getFlights(cb) {
                     cb(null, sortedAirlines);
                 }
             })
-        });
+        }
     });
 }
 
 var times = [];
 var count = 1000;
-var begin = process.hrtime()
+var begin = process.hrtime();
 
 function step() {
     var beginTime = process.hrtime();
     getFlights(function (err) {
+        var diff = process.hrtime(beginTime);
         if (err) {
             console.error(err);
         } else {
-            var diff = process.hrtime(beginTime);
             times.push(diff[0] * 1e9 + diff[1]);
             if (--count) {
                 step();
             } else {
-                printResult(times);
+                printBenchmark(times);
             }
         }
     });
-}
-
-function printResult() {
-    var diff = process.hrtime(begin);
-    console.log('Median: ' + times.sort()[times.length / 2]);
-    console.log('All / count: ' + (diff[0] * 1e9 + diff[1]) / 1000);
-    console.log('Avg: ' + avg(times));
-}
-
-function avg(array) {
-    var sum = array.reduce(function (item, sum) {
-        return sum + item;
-    }, 0);
-    return sum / array.length;
 }
 
 step();
