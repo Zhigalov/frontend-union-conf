@@ -5,14 +5,14 @@ var sortAirlines = require('./sortAirlines');
 function getFlights(cb) {
     getAirlines(function (err, airlines) {
         if (err) {
-            cb(err);
+            return cb(err);
         }
         var flightCosts = [];
         var airlinesCounter = airlines.length;
         airlines.forEach(function (airline, index) {
             getCost(airline, function (err, cost) {
                 if (err) {
-                    cb(err);
+                    return cb(err);
                 }
                 flightCosts[index] = cost;
                 if (--airlinesCounter === 0) {

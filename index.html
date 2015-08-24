@@ -44,12 +44,12 @@
     <pre class="javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { cb(err); }</code>
+        <code>                if (err) { return cb(err); }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -70,12 +70,12 @@
     <pre class="transparent-code javascript" style="margin-top: 10px">
         <code>function getFlights(cb) {</code>
         <code>    <mark>Get list of airlines</mark>(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            <mark>Get flight cost</mark>(airline, function (err, cost) {</code>
-        <code>                if (err) { cb(err); }</code>
+        <code>                if (err) { return cb(err); }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = <mark>Sort airlines</mark>(airlines, flightsCost);</code>
@@ -91,12 +91,12 @@
     <pre class="translucent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    <mark>Get list of airlines</mark>(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            <mark>Get flight cost</mark>(airline, function (err, cost) {</code>
-        <code>                if (err) { cb(err); }</code>
+        <code>                if (err) { return cb(err); }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = <mark>Sort airlines</mark>(airlines, flightsCost);</code>
@@ -113,12 +113,12 @@
     <pre class="transparent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { cb(err); }</code>
+        <code>                if (err) { return cb(err); }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -133,12 +133,12 @@
     <pre class="translucent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { cb(err); }</code>
+        <code>                if (err) { return cb(err); }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -155,12 +155,12 @@
     <pre class="transparent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { <mark>cb(err);</mark> }</code>
+        <code>                if (err) { <mark>return cb(err);</mark> }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -175,12 +175,12 @@
     <pre class="translucent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { <mark>cb(err);</mark> }</code>
+        <code>                if (err) { <mark>return cb(err);</mark> }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -197,12 +197,12 @@
     <pre class="transparent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        <mark>if (err) { cb(err); }</mark></code>
+        <code>        <mark>if (err) { return cb(err); }</mark></code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                <mark>if (err) { cb(err); }</mark></code>
+        <code>                <mark>if (err) { return cb(err); }</mark></code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -217,12 +217,12 @@
     <pre class="translucent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        <mark>if (err) { cb(err); }</mark></code>
+        <code>        <mark>if (err) { return cb(err); }</mark></code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = airlines.length;</code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                <mark>if (err) { cb(err); }</mark></code>
+        <code>                <mark>if (err) { return cb(err); }</mark></code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -239,12 +239,12 @@
     <pre class="transparent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = <mark>airlines.length;</mark></code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { cb(err); }</code>
+        <code>                if (err) { return cb(err); }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -259,12 +259,12 @@
     <pre class="translucent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        var flightsCost = [];</code>
         <code>        var airlinesCounter = <mark>airlines.length;</mark></code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { cb(err); }</code>
+        <code>                if (err) { return cb(err); }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (--airlinesCounter === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -281,12 +281,12 @@
     <pre class="transparent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        <mark>var flightsCost = [];</mark></code>
         <code>        <mark>var airlinesCounter = airlines.length;</mark></code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { cb(err); }</code>
+        <code>                if (err) { return cb(err); }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (<mark>--airlinesCounter</mark> === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
@@ -301,12 +301,12 @@
     <pre class="translucent-code javascript">
         <code>function getFlights(cb) {</code>
         <code>    getAirlines(function (err, airlines) {</code>
-        <code>        if (err) { cb(err); }</code>
+        <code>        if (err) { return cb(err); }</code>
         <code>        <mark>var flightsCost = [];</mark></code>
         <code>        <mark>var airlinesCounter = airlines.length;</mark></code>
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
-        <code>                if (err) { cb(err); }</code>
+        <code>                if (err) { return cb(err); }</code>
         <code>                flightsCost[index] = cost;</code>
         <code>                if (<mark>--airlinesCounter</mark> === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
