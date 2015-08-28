@@ -369,8 +369,43 @@
 <section class="slide">
     <h2>Promises</h2>
     <pre class="javascript">
+        <code><mark>myPromise()</mark></code>
+        <code>    .then(function onSuccess() { return data; },</code>
+        <code>          function onRejected() { ... })</code>
+        <code>    .then(function(data) { ... })</code>
+        <code> </code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Promises</h2>
+    <pre class="javascript">
         <code>myPromise()</code>
-        <code>    .then(function onFulfilled() { return data; },</code>
+        <code>    .then(function <mark>onSuccess</mark>() { return data; },</code>
+        <code>          function <mark>onRejected</mark>() { ... })</code>
+        <code>    .then(function(data) { ... })</code>
+        <code> </code>
+    </pre>
+    <div style="text-align: center"><img src="images/promiseInit.png" alt="promise" height="180"/></div>
+</section>
+
+<section class="slide">
+    <h2>Promises</h2>
+    <pre class="javascript">
+        <code>myPromise()</code>
+        <code>    .then(function onSuccess() { <mark>return data;</mark> },</code>
+        <code>          function onRejected() { ... })</code>
+        <code>    .then(function(<mark>data</mark>) { ... })</code>
+        <code> </code>
+    </pre>
+    <div style="text-align: center"><img src="images/promiseInit.png" alt="promise" height="180"/></div>
+</section>
+
+<section class="slide">
+    <h2>Promises</h2>
+    <pre class="javascript">
+        <code>myPromise()</code>
+        <code>    .then(function onSuccess() { return data; },</code>
         <code>          function onRejected() { ... })</code>
         <code>    .then(function(data) { ... })</code>
         <code> </code>
@@ -378,6 +413,83 @@
     <div style="text-align: center"><img src="images/promiseInit.png" alt="promise" height="180"/></div>
     <p><a href="https://promisesaplus.com/">Promises/A+</a></p>
     <p><a href="https://vimeo.com/74925301">Михаил Давыдов "Promise – это не больно"</a></p>
+</section>
+
+<section class="slide">
+    <table style="width: 100%; margin-top: -35px;">
+        <thead>
+        <tr>
+            <th scope="col">library</th>
+            <th scope="col">time(ms)</th>
+            <th scope="col">memory(MB)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>callbacks</td>
+            <td>211</td>
+            <td>25.57</td>
+        </tr>
+        <tr>
+            <td><p class="github"><a href="https://github.com/petkaantonov/bluebird">bluebird</a></p></td>
+            <td>389</td>
+            <td>53.49</td>
+        </tr>
+        <tr>
+            <td><p class="github"><a href="https://github.com/tildeio/rsvp.js/">RSVP.js</a></p></td>
+            <td>785</td>
+            <td>108.14</td>
+        </tr>
+        <tr>
+            <td><p class="github"><a href="https://github.com/dfilatov/vow">Vow</a></p></td>
+            <td>798</td>
+            <td>102.08</td>
+        </tr>
+        <tr>
+            <td><p class="github"><a href="https://github.com/cujojs/when">when.js</a></p></td>
+            <td>851</td>
+            <td>60.46</td>
+        </tr>
+        <tr>
+            <td><p class="github"><a href="https://github.com/calvinmetcalf/lie">lie</a></p></td>
+            <td>1065</td>
+            <td>187.69</td>
+        </tr>
+        <tr>
+            <td><p class="github"><a href="https://github.com/lvivski/davy">Davy Jones</a></p></td>
+            <td>1298</td>
+            <td>135.43</td>
+        </tr>
+        <!--<tr>-->
+            <!--<td>callbacks-caolan-async-parallel.js</td>-->
+            <!--<td>1780</td>-->
+            <!--<td>101.11</td>-->
+        <!--</tr>-->
+        <tr>
+            <td><p class="github"><a href="https://github.com/then/promise">then promise</a></p></td>
+            <td>2438</td>
+            <td>338.91</td>
+        </tr>
+        <!--<tr>-->
+            <!--<td>promises-ecmascript6-native.js</td>-->
+            <!--<td>3532</td>-->
+            <!--<td>301.96</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>promises-medikoo-deferred.js</td>-->
+            <!--<td>4207</td>-->
+            <!--<td>357.60</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td>promises-obvious-kew.js</td>-->
+            <!--<td>8311</td>-->
+            <!--<td>559.24</td>-->
+        <!--</tr>-->
+
+        </tbody>
+    </table>
+    <p style="font-size: small; color: darkgrey;">* results for 10000 parallel executions, 1 ms per I/O op (<a
+            href="https://github.com/petkaantonov/bluebird/tree/master/benchmark">Original</a>)</p>
 </section>
 
 <section class="slide">
@@ -395,6 +507,21 @@
     <div style="margin-top: 35px;">
         <p class="github"><a href="https://github.com/petkaantonov/bluebird">petkaantonov/bluebird</a></p>
     </div>
+</section>
+
+<section class="slide">
+    <h2>Promises</h2>
+    <pre class="javascript">
+        <code>function getAirlinesCb(cb) {</code>
+        <code>    setTimeout(function () {</code>
+        <code>        cb(null, 'Airline #123');</code>
+        <code>    }, 0);</code>
+        <code>}</code>
+    </pre>
+    <br/>
+    <pre class="javascript">
+        <code>var getAirlines = Promise.promisify(getAirlinesCb);</code>
+    </pre>
 </section>
 
 <section class="slide">
@@ -537,7 +664,7 @@
         <code>    var airlines = yield getAirlines();</code>
         <code>    var flightsCost = yield airlines.map(getCost);</code>
         <code>    return sortAirlines(airlines, flightsCost);</code>
-        <code>}).then(console.log.bind(console));</code>
+        <code>}).then(function (data) { console.log(data); });</code>
     </pre>
 </section>
 
@@ -940,7 +1067,7 @@
 <section class="slide">
     <h2><small>Generator.</small> co</h2>
     <pre class="javascript">
-        <code>var myPromise = co(function* () {</code>
+        <code>var myPromise = co(function *() {</code>
         <code>    var value = yield Promise.resolve('Hello, #func!');</code>
         <code>    return value;</code>
         <code>});</code>
@@ -950,7 +1077,7 @@
 <section class="slide">
     <h2><small>Generator.</small> co</h2>
     <pre class="javascript">
-        <code>var myPromise = co(function* () {</code>
+        <code>var myPromise = co(function *() {</code>
         <code>    var value = yield Promise.resolve('Hello, #func!');</code>
         <code>    return value;</code>
         <code>});</code>
@@ -990,8 +1117,8 @@
         <code>});</code>
         <code> </code>
         <code>getFlights</code>
-        <code>    .then(console.log.bind(console))</code>
-        <code>    .catch(console.error.bind(console));</code>
+        <code>    .then(function (data) { console.log(data); })</code>
+        <code>    .catch(function (err) { console.error(err); });</code>
     </pre>
 </section>
 
@@ -1010,8 +1137,8 @@
         <code>}</code>
         <code> </code>
         <code>getFlights</code>
-        <code>    .then(console.log.bind(console))</code>
-        <code>    .catch(console.error.bind(console));</code>
+        <code>    .then(function (data) { console.log(data); })</code>
+        <code>    .catch(function (err) { console.error(err); });</code>
     </pre>
 </section>
 
@@ -1139,8 +1266,7 @@
 </section>
 
 <section class="slide">
-    <h2><small>Async await.</small> Traceur</h2>
-    <div><a href="http://google.github.io/traceur-compiler/demo/repl.html#%2F%2F%20Options%3A%20--async-functions%0A%0Aasync%20function%20getFlights()%20%7B%0A%20%20%20%20var%20airlines%20%3D%20await%20getAirlines()%3B%0A%20%20%20%20var%20flightsCost%20%3D%20await%20airlines.map(getCost)%3B%0A%20%20%20%20return%20sortAirlines(airlines%2C%20flightsCost)%3B%0A%7D%0A%0AgetFlights()">Traceur</a></div>
+    <h2><small>Async await.</small> <a href="http://google.github.io/traceur-compiler/demo/repl.html#%2F%2F%20Options%3A%20--async-functions%0A%0Aasync%20function%20getFlights()%20%7B%0A%20%20%20%20var%20airlines%20%3D%20await%20getAirlines()%3B%0A%20%20%20%20var%20flightsCost%20%3D%20await%20airlines.map(getCost)%3B%0A%20%20%20%20return%20sortAirlines(airlines%2C%20flightsCost)%3B%0A%7D%0A%0AgetFlights()">Traceur</a></h2>
     <img src="images/traceur.png" alt="traceur"/>
 </section>
 
