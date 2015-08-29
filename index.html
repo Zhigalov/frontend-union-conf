@@ -288,7 +288,7 @@
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { return cb(err); }</code>
-        <code>                flightsCost[index] = cost;</code>
+        <code>                <mark>flightsCost[index]</mark> = cost;</code>
         <code>                if (<mark>--airlinesCounter</mark> === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
         <code>                    cb(null, sortedAirlines);</code>
@@ -308,7 +308,7 @@
         <code>        airlines.forEach(function (airline, index) {</code>
         <code>            getCost(airline, function (err, cost) {</code>
         <code>                if (err) { return cb(err); }</code>
-        <code>                flightsCost[index] = cost;</code>
+        <code>                <mark>flightsCost[index]</mark> = cost;</code>
         <code>                if (<mark>--airlinesCounter</mark> === 0) {</code>
         <code>                    var sortedAirlines = sortAirlines(airlines, flightsCost);</code>
         <code>                    cb(null, sortedAirlines);</code>
@@ -557,6 +557,26 @@
         <code>        flightsCost: Promise.all(airlines.map(getCost))</code>
         <code>    });</code>
         <code>}</code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2>Promise</h2>
+    <pre class="javascript">
+        <code>function getFlights() {</code>
+        <code>    return getAirlines()</code>
+        <code>        .then(function (airlines) {</code>
+        <code>            return Promise.props({</code>
+        <code>                airlines: airlines,</code>
+        <code>                flightsCost: Promise.all(airlines.map(getCost))</code>
+        <code>            });</code>
+        <code>        })</code>
+        <code>        .then(sortAirlines);</code>
+        <code>}</code>
+        <code> </code>
+        <code>getFlights</code>
+        <code>    .then(function (data) { console.log(data); })</code>
+        <code>    .catch(function (err) { console.error(err); });</code>
     </pre>
 </section>
 
@@ -1034,7 +1054,6 @@
 <section class="slide">
     <h2>Generator based control flow</h2>
     <ul>
-        <li class="github"><a href="https://github.com/kriskowal/q/wiki/API-Reference #qasyncgeneratorfunction">Q.async</a></li>
         <li class="github"><a href="https://github.com/tj/co">tj/co</a></li>
         <li class="github"><a href="https://github.com/mozilla/task.js">task.js</a></li>
         <li class="github"><a href="https://github.com/jmar777/suspend">jmar777/suspend</a></li>
@@ -1047,7 +1066,6 @@
 <section class="slide">
     <h2>Generator based control flow</h2>
     <ul>
-        <li class="github"><a href="https://github.com/kriskowal/q/wiki/API-Reference #qasyncgeneratorfunction">Q.async</a> ~9400*</li>
         <li class="github"><a href="https://github.com/tj/co">tj/co</a> ~3500*</li>
         <li class="github"><a href="https://github.com/mozilla/task.js">task.js</a> ~1320*</li>
         <li class="github"><a href="https://github.com/jmar777/suspend">jmar777/suspend</a> ~450*</li>
@@ -1123,6 +1141,18 @@
 </section>
 
 <section class="slide">
+    <h2>Generators framework</h2>
+    <ul>
+        <li><a href="http://expressjs.com/">Express</a> -> <a href="http://koajs.com/">Koa</a></li>
+        <li><a href="http://mochajs.org/">mocha</a> -> <a href="https://github.com/blakeembrey/co-mocha">co-mocha</a></li>
+        <li><a href="https://www.npmjs.com/package/monk">monk</a> -> <a href="https://github.com/tj/co-monk">co-monk</a></li>
+        <li>fs -> <a href="https://github.com/tj/co-fs">co-fs</a></li>
+        <li>spawn -> <a href="https://github.com/tj/co-exec">co-exec</a></li>
+        <li>...</li>
+    </ul>
+</section>
+
+<section class="slide">
     <h2>Promise</h2>
     <pre class="javascript">
         <code>function getFlights() {</code>
@@ -1143,15 +1173,18 @@
 </section>
 
 <section class="slide">
-    <h2>Generators framework</h2>
-    <ul>
-        <li><a href="http://expressjs.com/">Express</a> -> <a href="http://koajs.com/">Koa</a></li>
-        <li><a href="http://mochajs.org/">mocha</a> -> <a href="https://github.com/blakeembrey/co-mocha">co-mocha</a></li>
-        <li><a href="https://www.npmjs.com/package/monk">monk</a> -> <a href="https://github.com/tj/co-monk">co-monk</a></li>
-        <li>fs -> <a href="https://github.com/tj/co-fs">co-fs</a></li>
-        <li>spawn -> <a href="https://github.com/tj/co-exec">co-exec</a></li>
-        <li>...</li>
-    </ul>
+    <h2>Generator</h2>
+    <pre class="javascript">
+        <code>var getFlights = co(function *() {</code>
+        <code>    var airlines = yield getAirlines();</code>
+        <code>    var flightsCost = yield airlines.map(getCost);</code>
+        <code>    return sortAirlines(airlines, flightsCost);</code>
+        <code>});</code>
+        <code> </code>
+        <code>getFlights</code>
+        <code>    .then(function (data) { console.log(data); })</code>
+        <code>    .catch(function (err) { console.error(err); });</code>
+    </pre>
 </section>
 
 <section class="slide">
@@ -1402,7 +1435,13 @@
                 }, {
                     name: 'Generator',
                     data: [380, 411, 526, 689, 810, 1328, 1705, 2185, 2781, 3549, 4415, 5360, 6405, 6687, 8006, 8610, 12237, 14099, 15610, 17777]
-                }
+                }/*, {
+                    name: 'Babel',
+                    data: [332, 318, 520, 631, 853, 1286, 1498, 1866, 2765, 3248, 3767, 4714, 5684, 6735, 8271, 8804, 11830, 12861, 15478, 16333]
+                }, {
+                    name: 'Traceur',
+                    data: [199, 271, 347, 428, 512, 603, 669, 735, 810, 774, 843, 593, 1530, 1234, 1334, 1252, 1325, 1394, 1452, 1579]
+                }*/
             ],
             navigation: {
                 menuItemStyle: {
